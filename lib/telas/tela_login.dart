@@ -8,50 +8,73 @@ class telaLogin extends StatefulWidget {
   @override
   State<telaLogin> createState() => _telaLoginState();
 }
-final _txtUsername = TextEditingController();
-final _txtPassword = TextEditingController();
-final _formKey = GlobalKey<FormState>();
+final txtUsername = TextEditingController();
+final txtPassword = TextEditingController();
+final formKey = GlobalKey<FormState>();
 
 class _telaLoginState extends State<telaLogin> {
   @override
 
   Widget build(BuildContext context) {
-    
+      
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 236, 241, 214), 
+      appBar: criarAppBar(),
+      body: criarConteudo(),
+      
+    );
+  }
 
   login() {
-    Navigator.pushNamed(context, '/pedidos');
+    if (txtUsername == 'a' && txtPassword == '123') {
+      Navigator.of(context).pushNamed('/pedidos');
+    }
   }
 
-    informarLogin() {
-    return Row(
-      children: [
-        Expanded(child: CaixaTexto(texto: "Username", controlador: _txtUsername, msgValidacao: "Digite um nome de usuário", senha: false,)),
-        Expanded(child: CaixaTexto(texto: "Password", controlador: _txtPassword, msgValidacao: "Digite uma senha", senha: true,)),
-      ],
-    );
-  }
-
-    criarConteudo() {
-    return Form(
-      key: _formKey,
-        child: Column(
-          children: [
-            informarLogin(),
-            Botao(texto: 'Login', funcao: login,)
-            ],
-        ),
-    );
-  }
-
-
+  criarConteudo() {
+  return Center(
+    child: Form(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center, 
+        children: [
+          Container(
+            constraints: const BoxConstraints(maxWidth: 200), 
+            child: CaixaTexto(
+              texto: '',
+              msgValidacao: 'Digite um nome de usuário',
+              controlador: txtUsername,
+              senha: false,
+            ),
+          ),
+          const SizedBox(height: 20), 
+          Container(
+            constraints: const BoxConstraints(maxWidth: 200), 
+            child: CaixaTexto(
+              texto: '',
+              msgValidacao: 'Digite uma senha',
+              controlador: txtPassword,
+              senha: true,
+            ),
+          ),
+          const SizedBox(height: 20), 
+          ElevatedButton(
+            onPressed: login,
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, 
+              backgroundColor: Colors.grey,
+              side: const BorderSide(color: Colors.white), 
+            ),
+            child: const Text('Login'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
   criarAppBar() {
 
   }
 
-    return Scaffold(
-      appBar: criarAppBar(),
-      body: criarConteudo(),
-    );
   }
-}

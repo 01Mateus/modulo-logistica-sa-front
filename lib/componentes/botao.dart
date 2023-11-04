@@ -20,7 +20,7 @@ class _BotaoState extends State<Botao> {
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: const Color.fromARGB(255, 53, 112, 238),
-          shadowColor: Color.fromARGB(255, 148, 148, 148),
+          shadowColor: const Color.fromARGB(255, 148, 148, 148),
           elevation: 15,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

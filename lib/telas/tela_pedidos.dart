@@ -16,8 +16,11 @@ class _telaPedidosState extends State<telaPedidos> {
     }
     
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 236, 241, 214),
     body: criarConteudo(),
-    appBar: AppBar(title: const Text('Pedidos'),),   
+    appBar: AppBar(
+      backgroundColor: const Color.fromARGB(255, 167, 167, 133),
+    ),   
     );
   }
 }

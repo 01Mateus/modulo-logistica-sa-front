@@ -29,7 +29,7 @@ class _CaixaTextoState extends State<CaixaTexto> {
         decoration: InputDecoration(
           labelText: widget.texto,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(20)
           )
         )
       )

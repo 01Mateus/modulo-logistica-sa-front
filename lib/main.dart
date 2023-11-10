@@ -19,8 +19,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/login', routes: {
-        '/login':(context) => const telaLogin(),
-        '/pedidos':(context) => const telaPedidos(),
+        '/login':(context) => const TelaLogin(),
+        '/pedidos':(context) => const TelaPedidos(),
       },
     );
   }

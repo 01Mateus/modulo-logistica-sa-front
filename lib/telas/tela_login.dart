@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/componentes/caixa_texto.dart';
 
-// ignore: camel_case_types
-class telaLogin extends StatefulWidget {
-  const telaLogin({super.key});
+class TelaLogin extends StatefulWidget {
+  const TelaLogin({super.key});
 
   @override
-  State<telaLogin> createState() => _telaLoginState();
+  State<TelaLogin> createState() => _telaLoginState();
 }
 final txtUsername = TextEditingController();
 final txtPassword = TextEditingController();
 final formKey = GlobalKey<FormState>();
 
-class _telaLoginState extends State<telaLogin> {
+class _telaLoginState extends State<TelaLogin> {
   @override
 
   Widget build(BuildContext context) {

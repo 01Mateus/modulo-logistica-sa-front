@@ -1,33 +1,49 @@
 import 'package:flutter/material.dart';
 
-class imagemTexto extends StatelessWidget {
+class ImagemTexto extends StatelessWidget {
   final String imagePath;
-  final String text;
+  final String text1;
+  final String text2;
   
-  const imagemTexto({super.key, required this.imagePath, required this.text});
+  const ImagemTexto({super.key, required this.imagePath, required this.text1, required this.text2});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-           decoration: BoxDecoration(
+        decoration: BoxDecoration(
         border: Border.all(),
         borderRadius: BorderRadius.circular(8),
         color: const Color.fromARGB(255, 209, 222, 222), 
         ),
-        padding: const EdgeInsets.all(10),
-      child: Column(
+        width: 550,
+        height: 200,
+      child: Row(
         children: [
-          Image.network(
-            imagePath,
-            width: 230,
-            height: 200,
-          ),
-          const SizedBox(height: 7),
-          Text(
-            text,
-            textAlign: TextAlign.start,
-            style: const TextStyle(fontSize: 18),
-          ),
+          CircleAvatar(
+            radius: 80,
+            backgroundImage: NetworkImage(imagePath),
+          ), 
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                text1,
+                textAlign: TextAlign.start,
+                style: const TextStyle(fontSize: 18),
+              ),
+              const Text(
+                'Pedido',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 18),),
+              Text(
+                text2,
+                textAlign: TextAlign.start,
+                style: const TextStyle(fontSize: 18),
+              ),
+           
+            ],
+          )
         ],
       ),
     );

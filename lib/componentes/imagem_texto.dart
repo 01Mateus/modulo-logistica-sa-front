@@ -1,25 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
   final String endereco;
   final String pedido;
+  final String cliente;
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido})
+  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido, required this.cliente})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/login');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: const Color.fromARGB(255, 178, 185, 185),
+              contentPadding: const EdgeInsets.all(10),
+              content: SizedBox(
+                width: 430,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(imagePath),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      endereco,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    const Text(
+                      '\nPedido:',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      pedido,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Cliente:',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      cliente,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Fechar"),
+                ),
+              ],
+            );
+          },
+        );
       },
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(),
           borderRadius: BorderRadius.circular(8),
-          color: Color.fromARGB(255, 178, 185, 185),
+          color: const Color.fromARGB(255, 178, 185, 185),
         ),
         width: 550,
         height: 150,

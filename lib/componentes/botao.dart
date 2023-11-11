@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class Botao extends StatefulWidget {
   final texto;
   final funcao;
-  const Botao({super.key, this.texto, this.funcao});
+  final Color cor;
+  const Botao({super.key, this.texto, this.funcao, required this.cor});
 
   @override
   State<Botao> createState() => _BotaoState();
@@ -17,7 +18,7 @@ class _BotaoState extends State<Botao> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: const Color.fromARGB(255, 173, 172, 172),
+          backgroundColor: widget.cor,
           shadowColor: const Color.fromARGB(255, 148, 148, 148),
           elevation: 15,
           shape: RoundedRectangleBorder(

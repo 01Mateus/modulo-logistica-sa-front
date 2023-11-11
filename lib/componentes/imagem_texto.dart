@@ -1,52 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
-  final String text1;
-  final String text2;
-  
-  const ImagemTexto({super.key, required this.imagePath, required this.text1, required this.text2});
+  final String endereco;
+  final String pedido;
+
+  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/login');
+      },
+      child: Container(
         decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(8),
-        color: const Color.fromARGB(255, 209, 222, 222), 
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(8),
+          color: Color.fromARGB(255, 178, 185, 185),
         ),
         width: 550,
-        height: 200,
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 80,
-            backgroundImage: NetworkImage(imagePath),
-          ), 
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                text1,
-                textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 18),
+        height: 150,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(imagePath),
               ),
-              const Text(
-                'Pedido',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 18),),
-              Text(
-                text2,
-                textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    endereco,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  const Text(
+                    '\nPedido:',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  Text(
+                    pedido,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ],
               ),
-           
-            ],
-          )
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
-
 }

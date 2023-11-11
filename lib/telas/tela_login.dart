@@ -87,6 +87,7 @@ criarConteudo() {
                 Botao(
                   texto: 'Login',
                   funcao: login,
+                  cor: const Color.fromARGB(255, 173, 172, 172),
                 ),
                 const Icon(
                   Icons.account_circle, 

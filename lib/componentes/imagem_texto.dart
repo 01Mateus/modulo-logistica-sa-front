@@ -5,8 +5,12 @@ class ImagemTexto extends StatelessWidget {
   final String endereco;
   final String pedido;
   final String cliente;
+  final String frete;
+  final bool mostrarFrete;
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido, required this.cliente})
+ 
+
+  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido, required this.cliente, required this.frete, this.mostrarFrete = true})
       : super(key: key);
 
   @override
@@ -48,6 +52,16 @@ class ImagemTexto extends StatelessWidget {
                     ),
                     Text(
                       cliente,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    if (mostrarFrete)
+                      const Text(
+                      'Frete:',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    if (mostrarFrete)
+                     Text(
+                      frete,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                   ],
@@ -101,7 +115,7 @@ class ImagemTexto extends StatelessWidget {
                     pedido,
                     textAlign: TextAlign.start,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
-                  ),
+                  ),  
                 ],
               ),
             ),

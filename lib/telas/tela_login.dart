@@ -18,7 +18,7 @@ class _telaLoginState extends State<TelaLogin> {
   Widget build(BuildContext context) {
       
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 236, 241, 214), 
+      backgroundColor: const Color.fromARGB(255, 234, 224, 204), 
       body: criarConteudo(),
       
     );
@@ -42,10 +42,6 @@ criarConteudo() {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.person,
-                  size: 40,
-                ),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: CaixaTexto(
@@ -53,6 +49,7 @@ criarConteudo() {
                     msgValidacao: 'Digite um nome de usuário',
                     controlador: txtUsername,
                     senha: false,
+                    icone: Icons.person,
                   ),
                 ),
               ],
@@ -63,10 +60,6 @@ criarConteudo() {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.lock,
-                  size: 40,
-                ),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: CaixaTexto(
@@ -74,6 +67,7 @@ criarConteudo() {
                     msgValidacao: 'Digite uma senha',
                     controlador: txtPassword,
                     senha: true,
+                    icone: Icons.lock,
                   ),
                 ),
               ],
@@ -87,11 +81,8 @@ criarConteudo() {
                 Botao(
                   texto: 'Login',
                   funcao: login,
-                  cor: const Color.fromARGB(255, 173, 172, 172),
-                ),
-                const Icon(
-                  Icons.account_circle, 
-                  size: 35,
+                  cor: const Color.fromARGB(255, 77, 106, 109),
+                  icone: Icons.account_circle,
                 ),
               ],
             ),

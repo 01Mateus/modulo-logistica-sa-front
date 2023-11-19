@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
 import 'package:modulo_logistica_sa/telas/tela_login.dart';
 import 'package:modulo_logistica_sa/telas/tela_pedidos.dart';
 
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/login', routes: {
         '/login':(context) => const TelaLogin(),
         '/pedidos':(context) => const TelaPedidos(),
+        '/entregas':(context) => const TelaEntregas(),
       },
     );
   }

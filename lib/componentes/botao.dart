@@ -4,7 +4,9 @@ class Botao extends StatefulWidget {
   final texto;
   final funcao;
   final Color cor;
-  const Botao({super.key, this.texto, this.funcao, required this.cor});
+  final IconData icone;
+  
+  const Botao({super.key, this.texto, this.funcao, required this.cor, required this.icone});
 
   @override
   State<Botao> createState() => _BotaoState();
@@ -27,7 +29,14 @@ class _BotaoState extends State<Botao> {
           minimumSize: const Size(200, 50),
         ),
         onPressed: widget.funcao,
-        child: Text(widget.texto),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(widget.texto),
+            const SizedBox(width: 9),
+            Icon(widget.icone),
+          ],
+        )
       ),
     );
   }

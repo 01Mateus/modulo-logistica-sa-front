@@ -31,7 +31,7 @@ class _CaixaTextoState extends State<CaixaTexto> {
         decoration: InputDecoration(
           labelText: widget.texto,
           labelStyle: const TextStyle(color: Colors.white),
-          filled: true, 
+          filled: true,   
           fillColor: const Color.fromARGB(255, 77, 106, 109), 
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

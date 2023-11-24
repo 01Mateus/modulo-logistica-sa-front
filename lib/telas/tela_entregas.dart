@@ -69,6 +69,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
 
     return Scaffold(
       body: criarConteudo(),
+      backgroundColor: const Color.fromARGB(255, 236, 241, 214),
       appBar: AppBar(
         title: const Text(
           'HISTÓRICO DE ENTREGAS',
@@ -86,4 +87,5 @@ class _TelaEntregasState extends State<TelaEntregas> {
       ),
     );
   }
+  
 }

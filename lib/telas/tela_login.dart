@@ -37,7 +37,15 @@ criarConteudo() {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: [ 
+          const SizedBox(
+            width: 190,
+            height: 200,
+            child: CircleAvatar(foregroundImage: NetworkImage(
+              'https://cdn.pixabay.com/photo/2021/02/25/12/03/courier-6048941_1280.png'),
+            ),
+          ), 
+          SizedBox(height: 10,),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

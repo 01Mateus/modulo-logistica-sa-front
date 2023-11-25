@@ -12,7 +12,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
-      return const Column(
+      return const SingleChildScrollView(
+        padding: EdgeInsets.all(1),
+        child: Column(
         children: [
           SizedBox(height: 20),
           Row(
@@ -64,6 +66,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
             ],
           ),
         ],
+        ),
       );
     }
 

@@ -31,7 +31,7 @@ class _telaLoginState extends State<TelaLogin> {
   }
 
 criarConteudo() {
-  return Center(
+  return SingleChildScrollView(
     child: Form(
       key: formKey,
       child: Column(
@@ -45,7 +45,7 @@ criarConteudo() {
               'https://cdn.pixabay.com/photo/2021/02/25/12/03/courier-6048941_1280.png'),
             ),
           ), 
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

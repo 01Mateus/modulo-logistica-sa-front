@@ -25,6 +25,7 @@ class _CaixaTextoState extends State<CaixaTexto> {
           if (value!.isEmpty) {
             return widget.msgValidacao;
           }
+          return null;
         },
         obscureText: widget.senha,
         style: const TextStyle(color: Colors.white),

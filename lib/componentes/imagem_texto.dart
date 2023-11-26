@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
@@ -22,8 +23,11 @@ class ImagemTexto extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               backgroundColor: const Color.fromARGB(255, 178, 185, 185),
-              contentPadding: const EdgeInsets.all(10),
-              content: SizedBox(
+              content: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
                 width: 430,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -64,17 +68,21 @@ class ImagemTexto extends StatelessWidget {
                       frete,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
+                    const SizedBox(height: 9),
+                    Botao(
+                      texto: 'Fechar',
+                      funcao: () {
+                        Navigator.of(context).pop();
+                      },
+                      cor: Colors.blue,
+                      icone: Icons.close,
+                    ),
                   ],
                 ),
               ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Fechar"),
-                ),
-              ],
+              
+            ),
+          ),       
             );
           },
         );

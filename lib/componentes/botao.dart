@@ -17,7 +17,11 @@ class _BotaoState extends State<Botao> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(50.0),
-      child: ElevatedButton(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: widget.cor,
@@ -37,6 +41,8 @@ class _BotaoState extends State<Botao> {
             Icon(widget.icone),
           ],
         )
+      ),
+        ),
       ),
     );
   }

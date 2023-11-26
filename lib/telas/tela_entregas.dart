@@ -13,11 +13,14 @@ class _TelaEntregasState extends State<TelaEntregas> {
   Widget build(BuildContext context) {
     criarConteudo() {
       return const SingleChildScrollView(
-        child: Column(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
          children: [
-          SizedBox(height: 20),
+          SizedBox(height: 45),
           Row(
             children: [
               SizedBox(width: 400),
@@ -31,7 +34,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
                 frete: '',
                 mostrarFrete: true, 
               ),
-              SizedBox(width: 50),
             ],
           ),
           SizedBox(height: 10),
@@ -68,6 +70,8 @@ class _TelaEntregasState extends State<TelaEntregas> {
           ),
         ],
         ),
+        ),
+        
        
       );
     }

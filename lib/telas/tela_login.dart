@@ -31,7 +31,8 @@ class _telaLoginState extends State<TelaLogin> {
   }
 
 criarConteudo() {
-  return SingleChildScrollView(
+  return Center(
+  child: SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -48,11 +49,7 @@ criarConteudo() {
               'https://cdn.pixabay.com/photo/2021/02/25/12/03/courier-6048941_1280.png'),
             ),
           ), 
-          const SizedBox(height: 10),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+            const SizedBox(height: 10),
                 Container(
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: CaixaTexto(
@@ -62,15 +59,8 @@ criarConteudo() {
                     senha: false,
                     icone: Icons.person,
                   ),
-                ),
-              ],
-            ),
-          ),
+                ),  
           const SizedBox(height: 20),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
                 Container(
                   constraints: const BoxConstraints(maxWidth: 250),
                   child: CaixaTexto(
@@ -81,14 +71,7 @@ criarConteudo() {
                     icone: Icons.lock,
                   ),
                 ),
-              ],
-            ),
-          ),
           const SizedBox(height: 20),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
                 Botao(
                   texto: 'Login',
                   funcao: login,
@@ -96,14 +79,11 @@ criarConteudo() {
                   icone: Icons.account_circle,
                 ),
               ],
-            ),
+             ),
           ),
-        ],
+        ),
       ),
-    ),
-    ),
-   
-  );
+  ); 
 }
 
 }

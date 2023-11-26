@@ -12,8 +12,11 @@ class _TelaEntregasState extends State<TelaEntregas> {
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
-      return const Column(
-        children: [
+      return const SingleChildScrollView(
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+         children: [
           SizedBox(height: 20),
           Row(
             children: [
@@ -64,9 +67,11 @@ class _TelaEntregasState extends State<TelaEntregas> {
             ],
           ),
         ],
+        ),
+       
       );
     }
-
+    
     return Scaffold(
       body: criarConteudo(),
       backgroundColor: const Color.fromARGB(255, 236, 241, 214),

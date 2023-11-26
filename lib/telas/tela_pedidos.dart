@@ -13,10 +13,14 @@ class _TelaPedidosState extends State<TelaPedidos> {
   Widget build(BuildContext context) {
     criarConteudo() {
       return const SingleChildScrollView(
-        padding: EdgeInsets.all(1),
-        child: Column(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+            child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 45),
           Row(
             children: [
               SizedBox(width: 400),
@@ -30,7 +34,6 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 frete: '',
                 mostrarFrete: false, 
               ),
-              SizedBox(width: 50),
             ],
           ),
           SizedBox(height: 10),
@@ -67,6 +70,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
           ),
         ],
         ),
+        ),
+      
       );
     }
 

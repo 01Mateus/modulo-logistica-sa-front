@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class TelaEntregas extends StatelessWidget {
   final String imagePath;
   final String endereco;
@@ -28,13 +29,13 @@ class TelaEntregas extends StatelessWidget {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 160, 160, 131),
       ),
-      body: criarCounteudo(),
+      body: criarConteudo(),
     );
   }
 
-  criarCounteudo() {
+  criarConteudo() {
       return Center(
-        child:SingleChildScrollView(
+        child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -46,41 +47,40 @@ class TelaEntregas extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 50,
+                radius: 80,
                 backgroundImage: NetworkImage(imagePath),
               ),
               SizedBox(height: 10),
               Text(
                 endereco,
-                style: const TextStyle(color: Colors.black, fontSize: 14),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
               const Text(
                 '\nPedido:',
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                style: TextStyle(color: Colors.black, fontSize: 20),
               ),
               Text(
                 qntItemPedido,
-                style: const TextStyle(color: Colors.black, fontSize: 14),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
               Text(
                 itemPedido,
-                style: const TextStyle(color: Colors.black, fontSize: 14),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
               SizedBox(height: 10),
               const Text(
                 'Cliente:',
-                style: TextStyle(color: Colors.black, fontSize: 14),
+                style: TextStyle(color: Colors.black, fontSize: 20),
               ),
               Text(
                 cliente,
-                style: const TextStyle(color: Colors.black, fontSize: 14),
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ],
           ),
         ),
           ),
-        )
-        
+        )  
       ),
       );
   }

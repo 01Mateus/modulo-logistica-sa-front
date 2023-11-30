@@ -4,14 +4,16 @@ import 'package:modulo_logistica_sa/componentes/botao.dart';
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
   final String endereco;
-  final String pedido;
+  final String itemPedido;
+  final String qntItemPedido;
   final String cliente;
-  final String frete;
-  final bool mostrarFrete;
+  final bool mostrarBotaoPedido;
+  final bool mostrarBotaoConcluir;
+  final bool mostrarBotaoFechar;
 
  
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido, required this.cliente, required this.frete, this.mostrarFrete = true})
+  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, this.mostrarBotaoPedido = true, this.mostrarBotaoConcluir = true, this.mostrarBotaoFechar = true, required this.qntItemPedido,})
       : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class ImagemTexto extends StatelessWidget {
                       radius: 50,
                       backgroundImage: NetworkImage(imagePath),
                     ),
-                    const SizedBox(height: 10),
+                   const SizedBox(height: 10),
                     Text(
                       endereco,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
@@ -46,8 +48,12 @@ class ImagemTexto extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
-                      pedido,
+                      qntItemPedido,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      itemPedido,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),   
                     ),
                     const SizedBox(height: 10),
                     const Text(
@@ -58,29 +64,33 @@ class ImagemTexto extends StatelessWidget {
                       cliente,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    if (mostrarFrete)
-                      const Text(
-                      'Frete:',
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    if (mostrarFrete)
-                     Text(
-                      frete,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    const SizedBox(height: 9),
-                    Botao(
-                      texto: 'Fechar',
-                      funcao: () {
-                        Navigator.of(context).pop();
-                      },
-                      cor: Colors.blue,
-                      icone: Icons.close,
-                    ),
+                    if (mostrarBotaoPedido)
+                      Botao(texto: 'Aceitar Pedido',
+                            funcao: () {
+                              Navigator.of(context).pushReplacementNamed('/entregas');
+                            },
+                            cor: Colors.blue,
+                            icone: Icons.add,
+                            ),
+                    if (mostrarBotaoConcluir) 
+                      Botao(texto: 'Finalizar Entrega',
+                            funcao: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop('/pedidos');                         },
+                            cor: Colors.blue,
+                            icone: Icons.check,
+                            ),
+                    if (mostrarBotaoFechar)
+                      Botao(texto: '',
+                            funcao: () {
+                              Navigator.of(context).pop();
+                            },
+                            cor: Colors.blue,
+                            icone: Icons.close,
+                        ), 
                   ],
                 ),
-              ),
-              
+              ),     
             ),
           ),       
             );
@@ -120,10 +130,15 @@ class ImagemTexto extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
-                    pedido,
+                    qntItemPedido,
                     textAlign: TextAlign.start,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
-                  ),  
+                  ), 
+                  Text(
+                    itemPedido,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  ), 
                 ],
               ),
             ),

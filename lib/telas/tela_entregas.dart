@@ -1,70 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
 
-class TelaEntregas extends StatefulWidget {
-  const TelaEntregas({super.key});
+class TelaEntregas extends StatelessWidget {
+  final String imagePath;
+  final String endereco;
+  final String qntItemPedido;
+  final String itemPedido;
+  final String cliente;
 
-  @override
-  State<TelaEntregas> createState() => _TelaEntregasState();
-}
+  TelaEntregas({
+    required this.imagePath,
+    required this.endereco,
+    required this.qntItemPedido,
+    required this.itemPedido,
+    required this.cliente,
+  });
 
-class _TelaEntregasState extends State<TelaEntregas> {
   @override
   Widget build(BuildContext context) {
-    criarConteudo() {
-      return const SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tela de Entregas',
+              style: TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 77, 106, 109)
+              ),),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 160, 160, 131),
+      ),
+      body: criarCounteudo(),
+    );
+  }
+
+  criarCounteudo() {
+      return Center(
+        child:SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          child: Center(
+            child: Container(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-         children: [
-          SizedBox(height: 45),
-          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 400),
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                cliente: '', 
-                mostrarBotaoPedido: false,
-                mostrarBotaoConcluir: true,
-                mostrarBotaoFechar: false,
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(imagePath),
+              ),
+              SizedBox(height: 10),
+              Text(
+                endereco,
+                style: const TextStyle(color: Colors.black, fontSize: 14),
+              ),
+              const Text(
+                '\nPedido:',
+                style: TextStyle(color: Colors.black, fontSize: 14),
+              ),
+              Text(
+                qntItemPedido,
+                style: const TextStyle(color: Colors.black, fontSize: 14),
+              ),
+              Text(
+                itemPedido,
+                style: const TextStyle(color: Colors.black, fontSize: 14),
+              ),
+              SizedBox(height: 10),
+              const Text(
+                'Cliente:',
+                style: TextStyle(color: Colors.black, fontSize: 14),
+              ),
+              Text(
+                cliente,
+                style: const TextStyle(color: Colors.black, fontSize: 14),
               ),
             ],
           ),
-          SizedBox(height: 10), 
-          ],
         ),
-      ), 
-      );
-    }
-    
-    return Scaffold(
-      body: criarConteudo(),
-      backgroundColor: const Color.fromARGB(255, 236, 241, 214),
-      appBar: AppBar(
-        title: const Text(
-          '',
-          style: TextStyle(
-            fontSize: 45,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 77, 106, 109),
           ),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 160, 160, 131),
-        actions: const [
-          Icon(Icons.account_circle, size: 30),
-        ],
+        )
+        
       ),
-    );
+      );
   }
-  
 }

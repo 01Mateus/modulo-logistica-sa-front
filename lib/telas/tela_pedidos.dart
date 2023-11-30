@@ -12,18 +12,17 @@ class _TelaPedidosState extends State<TelaPedidos> {
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
-      return const SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+      return const Center(
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
             child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 45),
           Row(
             children: [
-              SizedBox(width: 400),
               ImagemTexto(
                 imagePath:
                     'https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg',
@@ -38,10 +37,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 30),
           Row(
             children: [
-              SizedBox(width: 400),
               ImagemTexto(
                 imagePath:
                     'https://cdn.pixabay.com/photo/2016/11/18/22/21/restaurant-1837150_1280.jpg',
@@ -56,10 +54,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 30),
           Row(
             children: [
-              SizedBox(width: 400),
               ImagemTexto(
                 imagePath:
                     'https://cdn.pixabay.com/photo/2015/02/24/11/54/vienna-647328_1280.jpg',
@@ -76,7 +73,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
           ),
         ],
         ),
-        ),   
+        ),
+        ), 
       );
     }
 

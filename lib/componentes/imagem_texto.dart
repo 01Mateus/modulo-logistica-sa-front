@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
 
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
@@ -67,7 +68,17 @@ class ImagemTexto extends StatelessWidget {
                     if (mostrarBotaoPedido)
                       Botao(texto: 'Aceitar Pedido',
                             funcao: () {
-                              Navigator.of(context).pushReplacementNamed('/entregas');
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => TelaEntregas(
+                                      imagePath: imagePath,
+                                      endereco: endereco,
+                                      qntItemPedido: qntItemPedido,
+                                      itemPedido: itemPedido,
+                                      cliente: cliente,
+                                    )
+                                  )
+                                );
                             },
                             cor: Colors.blue,
                             icone: Icons.add,
@@ -76,7 +87,8 @@ class ImagemTexto extends StatelessWidget {
                       Botao(texto: 'Finalizar Entrega',
                             funcao: () {
                               Navigator.of(context).pop();
-                              Navigator.of(context).pop('/pedidos');                         },
+                              Navigator.of(context).pop('/pedidos');
+                            },
                             cor: Colors.blue,
                             icone: Icons.check,
                             ),

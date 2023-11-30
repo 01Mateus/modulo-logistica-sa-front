@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class ImagemTexto extends StatelessWidget {
   final String imagePath;
   final String endereco;
-  final String pedido;
+  final String itemPedido;
+  final String qntItem;
   final String cliente;
   final String frete;
   final bool mostrarFrete;
 
  
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.pedido, required this.cliente, required this.frete, this.mostrarFrete = true})
+  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.cliente, required this.frete, this.mostrarFrete = true, required this.itemPedido, required this.qntItem})
       : super(key: key);
 
   @override

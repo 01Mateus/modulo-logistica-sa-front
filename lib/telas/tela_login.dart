@@ -25,7 +25,7 @@ class _TelaLoginState extends State<TelaLogin> {
       'senha': senhaApi,
     };
 
-    final uri = Uri.parse("http://localhost:9090/auth");
+    final uri = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
     try {
       Response response = await post(uri,
         body: json.encode(request),
@@ -38,6 +38,7 @@ class _TelaLoginState extends State<TelaLogin> {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = json.decode(response.body);
         
+        print(responseData);
         return responseData;
       } else {
         // Tratar outros códigos de status, se necessário

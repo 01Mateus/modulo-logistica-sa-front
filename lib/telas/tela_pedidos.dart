@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
 
 class TelaPedidos extends StatefulWidget {
@@ -9,6 +12,57 @@ class TelaPedidos extends StatefulWidget {
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {
+Future<Map<String, dynamic>?> buscarApiPedidos(
+  String endereco,
+  String imagePath,
+  String pedido,
+  String cliente,
+  ) async {
+    Map<String, dynamic> request = {
+
+    };
+
+    final uri = Uri.parse("http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&retirada=DELIVERY&pagina=0");
+    try {
+      Response response = await post(uri,
+        body: json.encode(request),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          // Adicione os cabeçalhos necessários aqui, como autorização, etc.
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = json.decode(response.body);
+        
+        return responseData;
+      } else {
+        // Tratar outros códigos de status, se necessário
+        // ignore: avoid_print
+        print('Erro na requisição: ${response.statusCode}');
+        return null; // Ou lançar uma exceção com detalhes do erro
+      }
+    } catch (e) {
+      // Tratar erros de conexão ou requisição
+      // ignore: avoid_print
+      print('Erro na requisição exception: $e');
+      return null; // Ou lançar uma exceção com detalhes do erro
+    }
+  }
+
+  void login() async {
+
+      Map<String, dynamic>? response = await buscarApiPedidos();
+      if (response != null) {
+      setState(() {
+        
+      });
+      } else {
+        // Tratar erro de autenticação
+        // Exemplo: exibir mensagem de erro para o usuário
+      }
+    }
+  
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
@@ -26,7 +80,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 pedido: '1 - X-Salada\n3 - Balde de frango\n1 - X-Tudo',
                 cliente: '',
                 frete: '',
-                mostrarFrete: false, 
+                mostrarFrete: false,
               ),
               SizedBox(width: 50),
             ],

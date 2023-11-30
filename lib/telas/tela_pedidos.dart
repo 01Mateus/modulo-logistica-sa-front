@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
+import 'package:modulo_logistica_sa/modelos/pedidos.dart';
 
 class TelaPedidos extends StatefulWidget {
-  const TelaPedidos({Key? key}) : super(key: key);
+  TelaPedidos({Key? key}) : super(key: key);
+
+  Pedidos pedidos = Pedidos.inciar();
 
   @override
   State<TelaPedidos> createState() => _TelaPedidosState();
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {
+  dynamic imagePath = "asodsaojkdsa";
+  dynamic endereco =  "casads coad sadcara";
+  dynamic qntItemPedido = "128312470214821";
+  dynamic itemPedido = "sexo 2";
+  dynamic cliente = "jorge";
+
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
-      return const Center(
+      return Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
@@ -25,19 +34,17 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath:
-                    'https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg',
+                    imagePath,
                 endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                cliente: '',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,
+                    endereco,
+                cliente: cliente,
+                qntItemPedido: qntItemPedido,
+                itemPedido: itemPedido
+
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               ImagemTexto(
@@ -48,13 +55,10 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 qntItemPedido: '3',
                 itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
                 cliente: '',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,  
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               ImagemTexto(
@@ -65,9 +69,6 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 qntItemPedido: '3',
                 itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
                 cliente: '',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,
               ),
             ],
           ),

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/modelos/pedidos.dart';
 
 
+// ignore: must_be_immutable
 class TelaEntregas extends StatelessWidget {
-  final String imagePath;
-  final String endereco;
-  final String qntItemPedido;
-  final String itemPedido;
-  final String cliente;
+Pedidos pedidos = Pedidos.inciar();
 
-  TelaEntregas({
+  dynamic imagePath = "asodsaojkdsa";
+  dynamic endereco =  "casads coad sadcara";
+  dynamic qntItemPedido = "128312470214821";
+  dynamic itemPedido = "sexo 2";
+  dynamic cliente = "jorge";
+
+
+
+
+  TelaEntregas({super.key, 
     required this.imagePath,
     required this.endereco,
     required this.qntItemPedido,
@@ -50,7 +57,7 @@ class TelaEntregas extends StatelessWidget {
                 radius: 80,
                 backgroundImage: NetworkImage(imagePath),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 endereco,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
@@ -67,7 +74,7 @@ class TelaEntregas extends StatelessWidget {
                 itemPedido,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               const Text(
                 'Cliente:',
                 style: TextStyle(color: Colors.black, fontSize: 20),

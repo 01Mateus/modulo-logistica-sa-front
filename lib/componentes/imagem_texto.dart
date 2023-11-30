@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:modulo_logistica_sa/componentes/botao.dart';
-import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
 
+// ignore: must_be_immutable
 class ImagemTexto extends StatelessWidget {
-  final String imagePath;
-  final String endereco;
-  final String itemPedido;
-  final String qntItemPedido;
-  final String cliente;
-  final bool mostrarBotaoPedido;
-  final bool mostrarBotaoConcluir;
-  final bool mostrarBotaoFechar;
+  String imagePath;
+  String endereco;
+  String itemPedido;
+  String qntItemPedido;
+  String cliente;
 
  
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, this.mostrarBotaoPedido = true, this.mostrarBotaoConcluir = true, this.mostrarBotaoFechar = true, required this.qntItemPedido,})
+  ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, required this.qntItemPedido,})
       : super(key: key);
 
   @override
@@ -37,7 +33,7 @@ class ImagemTexto extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(imagePath),
+                      backgroundImage: NetworkImage(imagePath.toString()),
                     ),
                    const SizedBox(height: 10),
                     Text(
@@ -64,42 +60,7 @@ class ImagemTexto extends StatelessWidget {
                     Text(
                       cliente,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    if (mostrarBotaoPedido)
-                      Botao(texto: 'Aceitar Pedido',
-                            funcao: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => TelaEntregas(
-                                      imagePath: imagePath,
-                                      endereco: endereco,
-                                      qntItemPedido: qntItemPedido,
-                                      itemPedido: itemPedido,
-                                      cliente: cliente,
-                                    )
-                                  )
-                                );
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.add,
-                            ),
-                    if (mostrarBotaoConcluir) 
-                      Botao(texto: 'Finalizar Entrega',
-                            funcao: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop('/pedidos');
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.check,
-                            ),
-                    if (mostrarBotaoFechar)
-                      Botao(texto: '',
-                            funcao: () {
-                              Navigator.of(context).pop();
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.close,
-                        ), 
+                    ), 
                   ],
                 ),
               ),     

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,199 +14,211 @@ class TelaPedidos extends StatefulWidget {
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {
-Future<Map<String, dynamic>?> buscarApiPedidos(
-  String endereco,
-  String imagePath,
-  String pedido,
-  String cliente,
-  ) async {
-    Map<String, dynamic> request = {
 
-    };
+  List<dynamic> listaEnderecos = [];
+  List<dynamic> listaClientes = [];
+  List<dynamic> listaNomesItens = [];
+  List<dynamic> listaQuantidadesItens = [];
+  List<dynamic> listaCepRestaurantePedido = [];
+  List<dynamic> listaImagemRestaurantePedido = [];
 
-    final uri = Uri.parse("http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&retirada=DELIVERY&pagina=0");
+
+  @override
+  void initState() {
+    super.initState();
+    buscarApiPedidos();
+  }
+
+  Future<void> buscarApiPedidos() async {
+    Uri uri = Uri.parse(
+        "http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&retirada=DELIVERY&pagina=0");
+
     try {
-      Response response = await post(uri,
-        body: json.encode(request),
+      Response response = await get(
+        uri,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
-          // Adicione os cabeçalhos necessários aqui, como autorização, etc.
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbnRlZ3JhY2FvQHBlZGlkb3MuY29tIiwiaWF0IjoxNzAxMzg2MjkzLCJleHAiOjE3MDMxODYyOTN9.HXkN8rOqizDQpdzVyh2VcP5ZQA9JH1-ZuREJGmk2Hzo', // Substitua pelo seu token real
         },
       );
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = json.decode(response.body);
-        
-        return responseData;
+        List<dynamic> pedidos = responseData['listagem'];
+
+      for (var pedido in pedidos) {
+        String cepRestaurante = pedido['restaurante']['cep'];
+        String nomeRestaurante = pedido['restaurante']['nome'];
+        String endereco = pedido['restaurante']['rua'];
+        String cliente = pedido['cliente']['nome'];
+
+        listaCepRestaurantePedido.add(cepRestaurante);
+        listaImagemRestaurantePedido.add(nomeRestaurante);
+        listaEnderecos.add(endereco);
+        listaClientes.add(cliente);
+
+        List<dynamic> itensPedidos = pedido['opcoes'];
+
+        for (var item in itensPedidos) {
+          String nomeItem = item['nome'];
+          int quantidade = item['qtde_itens'];
+
+          listaNomesItens.add(nomeItem);
+          listaQuantidadesItens.add(quantidade);
+          // Adicione outros dados às listas, se necessário
+        }
+        }
+
+        setState(() {}); // Atualiza o estado da interface após buscar os pedidos
       } else {
-        // Tratar outros códigos de status, se necessário
         // ignore: avoid_print
         print('Erro na requisição: ${response.statusCode}');
-        return null; // Ou lançar uma exceção com detalhes do erro
       }
     } catch (e) {
-      // Tratar erros de conexão ou requisição
       // ignore: avoid_print
       print('Erro na requisição exception: $e');
-      return null; // Ou lançar uma exceção com detalhes do erro
     }
   }
 
-  void login() async {
+  Widget criarConteudo() { 
+    print(listaCepRestaurantePedido.toString());
 
-      Map<String, dynamic>? response = await buscarApiPedidos();
-      if (response != null) {
-      setState(() {
-        
-      });
-      } else {
-        // Tratar erro de autenticação
-        // Exemplo: exibir mensagem de erro para o usuário
-      }
-    }
-  
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            const SizedBox(width: 400),
+            // Aqui você usaria os valores das variáveis preenchidas
+            // para exibi-los no widget ImagemTexto
+          ImagemTexto(
+            imagePath: 'imagemRestaurantePedido',
+            endereco: listaCepRestaurantePedido.toString(),
+            itemPedido: 'nomeItensPedido',
+            qntItem: 0,
+            cliente: 'clientePedido',
+            ),
+            const SizedBox(width: 50),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            const SizedBox(width: 400),
+            ImagemTexto(
+             imagePath: 'imagemRestaurantePedido',
+            endereco: listaCepRestaurantePedido.toString(),
+            itemPedido: 'nomeItensPedido',
+            qntItem: 0,
+            cliente: 'clientePedido',
+             ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            const SizedBox(width: 400),
+            // Outro exemplo de uso do widget ImagemTexto
+             ImagemTexto(
+             imagePath: 'imagemRestaurantePedido',
+            endereco: listaCepRestaurantePedido.toString(),
+            itemPedido: 'nomeItensPedido',
+            qntItem: 0,
+            cliente: 'clientePedido',
+     
+             ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    criarConteudo() {
-      return const Column(
-        children: [
-          SizedBox(height: 20),
-          Row(
-            children: [
-              SizedBox(width: 400),
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                pedido: '1 - X-Salada\n3 - Balde de frango\n1 - X-Tudo',
-                cliente: '',
-                frete: '',
-                mostrarFrete: false,
+    return Scaffold(
+      endDrawer: Drawer(
+        child: Container(
+          color: const Color.fromARGB(255, 167, 167, 133),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              const SizedBox(
+                height: 80,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 167, 167, 133),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Icon(Icons.account_circle,
+                        color: Colors.white, size: 40),
+                  ),
+                ),
               ),
-              SizedBox(width: 50),
+              const Divider(
+                color: Color.fromARGB(255, 77, 106, 109),
+                thickness: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/entregas');
+                },
+                child: const ListTile(
+                  leading: Icon(Icons.av_timer),
+                  title: Text(
+                    'Histórico de entregas',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              const Divider(
+                color: Color.fromARGB(255, 121, 132, 120),
+                thickness: 8,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                child: const ListTile(
+                  title: Text(
+                    'Sair',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: Icon(Icons.logout),
+                ),
+              ),
+              const Divider(
+                color: Color.fromARGB(255, 121, 132, 120),
+                thickness: 8,
+              ),
             ],
           ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 400),
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2016/11/18/22/21/restaurant-1837150_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                pedido: '1 - X-Salada\n3 - Balde de frango\n1 - X-Tudo',
-                cliente: '',
-                frete: '',
-                mostrarFrete: false, 
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 400),
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2015/02/24/11/54/vienna-647328_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                pedido: '1 - X-Salada\n3 - Balde de frango\n1 - X-Tudo',
-                cliente: '',
-                frete: '',
-                mostrarFrete: false, 
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
-     return Scaffold(
-  endDrawer: Drawer(
-    child: Container(
-      color: const Color.fromARGB(255, 167, 167, 133),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const SizedBox(
-            height: 80,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 167, 167, 133),
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Icon(Icons.account_circle, color: Colors.white, size: 40),
-              ),
-            ),
-          ),
-          const Divider(
-            color: Color.fromARGB(255, 77, 106, 109),
-            thickness: 10,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed('/entregas');
+        ),
+      ),
+      backgroundColor: const Color.fromARGB(255, 236, 241, 214),
+      body: criarConteudo(),
+      appBar: AppBar(
+        title: const Text('PEDIDOS',
+            style: TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 77, 106, 109))),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 160, 160, 131),
+        actions: [
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.account_circle, size: 30),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
             },
-            child: const ListTile(
-              leading: Icon(Icons.av_timer),
-              title: Text(
-                'Histórico de entregas',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          const Divider(
-            color: Color.fromARGB(255, 121, 132, 120),
-            thickness: 8,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/login');
-            },
-            child: const ListTile(
-              title: Text(
-                'Sair',
-                style: TextStyle(color: Colors.white),
-              ),
-              leading: Icon(Icons.logout),
-            ),
-          ),
-          const Divider(
-            color: Color.fromARGB(255, 121, 132, 120),
-            thickness: 8,
           ),
         ],
       ),
-    ),
-  ),
-  backgroundColor: const Color.fromARGB(255, 236, 241, 214),
-  body: criarConteudo(),
-  appBar: AppBar(
-    title: const Text('PEDIDOS',
-        style: TextStyle(
-            fontSize: 45,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 77, 106, 109))),
-    centerTitle: true,
-    backgroundColor: const Color.fromARGB(255, 160, 160, 131),
-    actions: [
-      Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.account_circle, size: 30),
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-            );
-          }
-      ),
-    ],
-  ),
-);
+    );
   }
-
 }
-  

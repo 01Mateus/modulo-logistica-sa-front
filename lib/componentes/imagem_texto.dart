@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ImagemTexto extends StatelessWidget {
-  final String imagePath;
-  final String endereco;
-  final String itemPedido;
-  final String qntItem;
-  final String cliente;
-  final String frete;
-  final bool mostrarFrete;
+  String imagePath;
+  String endereco;
+  String itemPedido;
+  int qntItem;
+  String cliente;
+  bool mostrarFrete;
 
  
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.cliente, required this.frete, this.mostrarFrete = true, required this.itemPedido, required this.qntItem})
+  ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.cliente, this.mostrarFrete = true, required this.itemPedido, required this.qntItem})
       : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class ImagemTexto extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
-                      pedido,
+                      itemPedido,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     const SizedBox(height: 10),
@@ -59,11 +59,6 @@ class ImagemTexto extends StatelessWidget {
                       const Text(
                       'Frete:',
                       style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    if (mostrarFrete)
-                     Text(
-                      frete,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                   ],
                 ),
@@ -113,7 +108,7 @@ class ImagemTexto extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
-                    pedido,
+                    itemPedido,
                     textAlign: TextAlign.start,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),  

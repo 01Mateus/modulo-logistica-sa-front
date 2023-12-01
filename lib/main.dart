@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/login', routes: {
         '/login':(context) => const TelaLogin(),
         '/pedidos':(context) => const TelaPedidos(),
-        '/entregas':(context) => const TelaEntregas(),
+        '/entregas':(context) => TelaEntregas(),
       },
     );
   }

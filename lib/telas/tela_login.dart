@@ -25,9 +25,10 @@ class _TelaLoginState extends State<TelaLogin> {
       'senha': senhaApi,
     };
 
-    final uri = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
+    final uriLogin = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
+
     try {
-      Response response = await post(uri,
+      Response response = await post(uriLogin,
         body: json.encode(request),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
@@ -35,11 +36,13 @@ class _TelaLoginState extends State<TelaLogin> {
         },
       );
 
+      
+
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = json.decode(response.body);
+        Map<String, dynamic> responseDataLogin = json.decode(response.body);
         
-        print(responseData);
-        return responseData;
+        print(responseDataLogin);
+        return responseDataLogin;
       } else {
         // Tratar outros códigos de status, se necessário
         print('Erro na requisição: ${response.statusCode}');
@@ -51,8 +54,9 @@ class _TelaLoginState extends State<TelaLogin> {
       return null; // Ou lançar uma exceção com detalhes do erro
     }
   }
+  
 
-  void login() async {
+void login() async {
     if (formKey.currentState!.validate()) {
       String loginApi = txtUsername.text;
       String senhaApi = txtPassword.text;
@@ -69,6 +73,7 @@ class _TelaLoginState extends State<TelaLogin> {
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

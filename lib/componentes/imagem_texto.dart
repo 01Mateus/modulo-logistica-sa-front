@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
-import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
+
 
 class ImagemTexto extends StatelessWidget {
-  final String imagePath;
-  final String endereco;
-  final String itemPedido;
-  final String qntItemPedido;
-  final String cliente;
-  final bool mostrarBotaoPedido;
-  final bool mostrarBotaoConcluir;
-  final bool mostrarBotaoFechar;
+  String imagePath;
+  String endereco;
+  String itemPedido;
+  String qntItemPedido;
+  String cliente;
+  String nomeRestaurante;
 
  
 
-  const ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, this.mostrarBotaoPedido = true, this.mostrarBotaoConcluir = true, this.mostrarBotaoFechar = true, required this.qntItemPedido,})
+  ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, required this.qntItemPedido, required this.nomeRestaurante})
       : super(key: key);
 
   @override
@@ -37,7 +35,7 @@ class ImagemTexto extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(imagePath),
+                      backgroundImage: NetworkImage(imagePath.toString()),
                     ),
                    const SizedBox(height: 10),
                     Text(
@@ -65,41 +63,18 @@ class ImagemTexto extends StatelessWidget {
                       cliente,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                    if (mostrarBotaoPedido)
-                      Botao(texto: 'Aceitar Pedido',
-                            funcao: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => TelaEntregas(
-                                      imagePath: imagePath,
-                                      endereco: endereco,
-                                      qntItemPedido: qntItemPedido,
-                                      itemPedido: itemPedido,
-                                      cliente: cliente,
-                                    )
-                                  )
-                                );
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.add,
-                            ),
-                    if (mostrarBotaoConcluir) 
-                      Botao(texto: 'Finalizar Entrega',
-                            funcao: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop('/pedidos');
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.check,
-                            ),
-                    if (mostrarBotaoFechar)
-                      Botao(texto: '',
-                            funcao: () {
-                              Navigator.of(context).pop();
-                            },
-                            cor: Colors.blue,
-                            icone: Icons.close,
-                        ), 
+                    Text(
+                      nomeRestaurante,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                     Botao(
+                      texto: 'Aceitar pedido',
+                      funcao: () {
+                        Navigator.of(context).pushNamed('/entregas');
+                      },
+                      cor: Colors.blue,
+                      icone: Icons.add,
+              ), 
                   ],
                 ),
               ),     
@@ -111,8 +86,7 @@ class ImagemTexto extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
           color: const Color.fromARGB(255, 178, 185, 185),
         ),
         width: 550,
@@ -150,7 +124,12 @@ class ImagemTexto extends StatelessWidget {
                     itemPedido,
                     textAlign: TextAlign.right,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
-                  ), 
+                  ),
+                  Text(
+                    nomeRestaurante,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
                 ],
               ),
             ),

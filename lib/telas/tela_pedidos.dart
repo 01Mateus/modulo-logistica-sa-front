@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
 
 class TelaPedidos extends StatefulWidget {
@@ -9,10 +10,19 @@ class TelaPedidos extends StatefulWidget {
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {
+  dynamic imagePath = "";
+  dynamic endereco = "";
+  dynamic qntItemPedido = "";
+  dynamic itemPedido = "";
+  dynamic cliente = "";
+  dynamic nomeRestaurante = "";
+
+  
+
   @override
   Widget build(BuildContext context) {
     criarConteudo() {
-      return const Center(
+      return Center(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
@@ -21,53 +31,56 @@ class _TelaPedidosState extends State<TelaPedidos> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 30),
           Row(
             children: [
               ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                cliente: '',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,
+                imagePath: imagePath,
+                endereco: endereco,
+                cliente: cliente,
+                qntItemPedido: qntItemPedido,
+                itemPedido: itemPedido,
+                nomeRestaurante: nomeRestaurante, 
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2016/11/18/22/21/restaurant-1837150_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                cliente: '',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,  
+                imagePath: imagePath,
+                endereco: endereco,
+                cliente: cliente,
+                qntItemPedido: qntItemPedido,
+                itemPedido: itemPedido,
+                nomeRestaurante: nomeRestaurante, 
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             children: [
               ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2015/02/24/11/54/vienna-647328_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                cliente: '',
-                mostrarBotaoPedido: true,
-                mostrarBotaoConcluir: false,
-                mostrarBotaoFechar: true,
+                imagePath: imagePath,
+                endereco: endereco,
+                cliente: cliente,
+                qntItemPedido: qntItemPedido,
+                itemPedido: itemPedido,
+                nomeRestaurante: nomeRestaurante, 
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              ImagemTexto(
+                imagePath: imagePath,
+                endereco: endereco,
+                cliente: cliente,
+                qntItemPedido: qntItemPedido,
+                itemPedido: itemPedido,
+                nomeRestaurante: nomeRestaurante, 
               ),
             ],
           ),
@@ -96,15 +109,6 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 child: Icon(Icons.account_circle, color: Colors.white, size: 40),
               ),
             ),
-          ),
-          const Divider(
-            color: Color.fromARGB(255, 77, 106, 109),
-            thickness: 10,
-          ),
-      
-          const Divider(
-            color: Color.fromARGB(255, 121, 132, 120),
-            thickness: 8,
           ),
           InkWell(
             onTap: () {

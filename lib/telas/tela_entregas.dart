@@ -1,35 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 
 class TelaEntregas extends StatelessWidget {
-  final String imagePath;
-  final String endereco;
-  final String qntItemPedido;
-  final String itemPedido;
-  final String cliente;
+   dynamic imagePath;
+   dynamic endereco;
+   dynamic qntItemPedido;
+   dynamic itemPedido;
+   dynamic cliente;
+   dynamic nomeRestaurante;
 
-  TelaEntregas({
+  TelaEntregas({ 
     required this.imagePath,
     required this.endereco,
     required this.qntItemPedido,
     required this.itemPedido,
     required this.cliente,
+    required this.nomeRestaurante,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela de Entregas',
+        title: const Text('Entregas',
               style: TextStyle(
                 fontSize: 45,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 77, 106, 109)
               ),),
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 160, 160, 131),
       ),
       body: criarConteudo(),
+      backgroundColor: const Color.fromARGB(255, 236, 241, 214),
     );
   }
 
@@ -50,7 +55,7 @@ class TelaEntregas extends StatelessWidget {
                 radius: 80,
                 backgroundImage: NetworkImage(imagePath),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 endereco,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
@@ -67,7 +72,7 @@ class TelaEntregas extends StatelessWidget {
                 itemPedido,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               const Text(
                 'Cliente:',
                 style: TextStyle(color: Colors.black, fontSize: 20),
@@ -76,6 +81,21 @@ class TelaEntregas extends StatelessWidget {
                 cliente,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
+               Text(
+                nomeRestaurante,
+                style: const TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+               Builder(
+                builder: (BuildContext context) {
+                  return Botao(
+                          texto: 'Finalizar entrega',
+                          funcao: () {
+                            Navigator.of(context).pop('/pedidos');
+                          },
+                          cor: Colors.blue,
+                          icone: Icons.check,
+                  );
+                }),
             ],
           ),
         ),

@@ -21,8 +21,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login', routes: {
         '/login':(context) => const TelaLogin(),
-        '/pedidos':(context) => const TelaPedidos(),
-        '/entregas':(context) => TelaEntregas(imagePath: '', endereco: '', qntItemPedido: '', itemPedido: '', cliente: '',),
+        '/pedidos':(context) => TelaPedidos(),
+        '/entregas':(context) => TelaEntregas(imagePath: '', endereco: '', qntItemPedido: '', itemPedido: '', cliente: '', nomeRestaurante: '',),
       },
     );
   }

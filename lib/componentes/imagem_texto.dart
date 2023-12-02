@@ -43,6 +43,10 @@ class ImagemTexto extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
+                      qntItem.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
                       itemPedido,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),

@@ -94,10 +94,10 @@ class _TelaPedidosState extends State<TelaPedidos> {
             // para exibi-los no widget ImagemTexto
           ImagemTexto(
             imagePath: 'imagemRestaurantePedido',
-            endereco: listaCepRestaurantePedido.toString(),
-            itemPedido: 'nomeItensPedido',
-            qntItem: 0,
-            cliente: 'clientePedido',
+            endereco: listaEnderecos[0].toString(),
+            itemPedido: listaNomesItens[0].toString(),
+            qntItem: int.parse(listaQuantidadesItens[0].toString()),
+            cliente: listaClientes[0].toString(),
             ),
             const SizedBox(width: 50),
           ],
@@ -107,11 +107,11 @@ class _TelaPedidosState extends State<TelaPedidos> {
           children: [
             const SizedBox(width: 400),
             ImagemTexto(
-             imagePath: 'imagemRestaurantePedido',
-            endereco: listaCepRestaurantePedido.toString(),
-            itemPedido: 'nomeItensPedido',
-            qntItem: 0,
-            cliente: 'clientePedido',
+              imagePath: 'imagemRestaurantePedido',
+            endereco: listaEnderecos[1].toString(),
+            itemPedido: listaNomesItens[1].toString(),
+            qntItem: int.parse(listaQuantidadesItens[1].toString()),
+            cliente: listaClientes[1].toString(),
              ),
           ],
         ),
@@ -121,11 +121,11 @@ class _TelaPedidosState extends State<TelaPedidos> {
             const SizedBox(width: 400),
             // Outro exemplo de uso do widget ImagemTexto
              ImagemTexto(
-             imagePath: 'imagemRestaurantePedido',
-            endereco: listaCepRestaurantePedido.toString(),
-            itemPedido: 'nomeItensPedido',
-            qntItem: 0,
-            cliente: 'clientePedido',
+              imagePath: 'imagemRestaurantePedido',
+            endereco: listaEnderecos[2].toString(),
+            itemPedido: listaNomesItens[2].toString(),
+            qntItem: int.parse(listaQuantidadesItens[2].toString()),
+            cliente: listaClientes[2].toString(),
      
              ),
           ],

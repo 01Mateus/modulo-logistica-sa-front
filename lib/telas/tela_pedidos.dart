@@ -11,11 +11,12 @@ class TelaPedidos extends StatefulWidget {
 
 class _TelaPedidosState extends State<TelaPedidos> {
   dynamic imagePath = "";
-  dynamic endereco = "";
+  dynamic enderecoRestaurante = "";
   dynamic qntItemPedido = "";
   dynamic itemPedido = "";
   dynamic cliente = "";
   dynamic nomeRestaurante = "";
+  dynamic enderecoCliente = "";
 
   
 
@@ -36,8 +37,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
-                endereco: endereco,
+                enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
+                enderecoCliente: enderecoCliente,
                 qntItemPedido: qntItemPedido,
                 itemPedido: itemPedido,
                 nomeRestaurante: nomeRestaurante, 
@@ -49,8 +51,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
-                endereco: endereco,
+                enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
+                enderecoCliente: enderecoCliente,
                 qntItemPedido: qntItemPedido,
                 itemPedido: itemPedido,
                 nomeRestaurante: nomeRestaurante, 
@@ -62,8 +65,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
-                endereco: endereco,
+                enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
+                enderecoCliente: enderecoCliente,
                 qntItemPedido: qntItemPedido,
                 itemPedido: itemPedido,
                 nomeRestaurante: nomeRestaurante, 
@@ -76,8 +80,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
-                endereco: endereco,
+                enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
+                enderecoCliente: enderecoCliente,
                 qntItemPedido: qntItemPedido,
                 itemPedido: itemPedido,
                 nomeRestaurante: nomeRestaurante, 

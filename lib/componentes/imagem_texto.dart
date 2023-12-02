@@ -4,15 +4,16 @@ import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 class ImagemTexto extends StatelessWidget {
   String imagePath;
-  String endereco;
+  String enderecoRestaurante;
   String itemPedido;
   String qntItemPedido;
   String cliente;
   String nomeRestaurante;
+  String enderecoCliente;
 
  
 
-  ImagemTexto({Key? key, required this.imagePath, required this.endereco, required this.itemPedido, required this.cliente, required this.qntItemPedido, required this.nomeRestaurante})
+  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.qntItemPedido, required this.nomeRestaurante, required this.enderecoCliente})
       : super(key: key);
 
   @override
@@ -39,7 +40,7 @@ class ImagemTexto extends StatelessWidget {
                     ),
                    const SizedBox(height: 10),
                     Text(
-                      endereco,
+                      enderecoRestaurante,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     const Text(
@@ -64,6 +65,10 @@ class ImagemTexto extends StatelessWidget {
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
+                      enderecoCliente,
+                       style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
                       nomeRestaurante,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
@@ -86,6 +91,7 @@ class ImagemTexto extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
+          border: Border.all(),
           borderRadius: BorderRadius.circular(30),
           color: const Color.fromARGB(255, 178, 185, 185),
         ),
@@ -106,7 +112,7 @@ class ImagemTexto extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    endereco,
+                    enderecoRestaurante,
                     textAlign: TextAlign.start,
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),

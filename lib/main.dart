@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/login', routes: {
-        '/login':(context) => const TelaLogin(),
+        '/login':(context) => TelaLogin(),
         '/pedidos':(context) => TelaPedidos(),
         '/entregas':(context) => TelaEntregas(imagePath: '', endereco: '', qntItemPedido: '', itemPedido: '', cliente: '', nomeRestaurante: '',),
       },

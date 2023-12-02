@@ -44,16 +44,20 @@ class _TelaPedidosState extends State<TelaPedidos> {
       );
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = json.decode(response.body);
+        Map<String, dynamic> responseData = json.decode(utf8.decode(response.bodyBytes));
         List<dynamic> pedidos = responseData['listagem'];
 
       for (var pedido in pedidos) {
         String cepRestaurante = pedido['restaurante']['cep'];
         String nomeRestaurante = pedido['restaurante']['nome'];
-        String endereco = pedido['restaurante']['rua'];
         String cliente = pedido['cliente']['nome'];
 
-        listaCepRestaurantePedido.add(cepRestaurante);
+        String rua = pedido['restaurante']['rua'];
+        String bairro = pedido['restaurante']['bairro'];
+        String cidade = pedido['restaurante']['cidade'];
+
+        String endereco = '$rua - $bairro - $cidade, $cepRestaurante';
+
         listaImagemRestaurantePedido.add(nomeRestaurante);
         listaEnderecos.add(endereco);
         listaClientes.add(cliente);
@@ -64,8 +68,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
           String nomeItem = item['nome'];
           int quantidade = item['qtde_itens'];
 
-          listaNomesItens.add(nomeItem);
-          listaQuantidadesItens.add(quantidade);
+          String itemCompleto = '$quantidade - $nomeItem';
+
+          listaNomesItens.add(itemCompleto);
           // Adicione outros dados às listas, se necessário
         }
         }
@@ -81,7 +86,21 @@ class _TelaPedidosState extends State<TelaPedidos> {
     }
   }
 
-  Widget criarConteudo() { 
+  Widget criarConteudo() {
+
+
+    if( 
+      listaClientes.isEmpty ||
+      listaEnderecos.isEmpty ||
+      listaImagemRestaurantePedido.isEmpty ||
+      listaNomesItens.isEmpty) {
+        return 
+        const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+
     print(listaCepRestaurantePedido.toString());
 
     return Column(
@@ -96,7 +115,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
             imagePath: 'imagemRestaurantePedido',
             endereco: listaEnderecos[0].toString(),
             itemPedido: listaNomesItens[0].toString(),
-            qntItem: int.parse(listaQuantidadesItens[0].toString()),
+            qntItem: 0,
             cliente: listaClientes[0].toString(),
             ),
             const SizedBox(width: 50),
@@ -110,7 +129,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
               imagePath: 'imagemRestaurantePedido',
             endereco: listaEnderecos[1].toString(),
             itemPedido: listaNomesItens[1].toString(),
-            qntItem: int.parse(listaQuantidadesItens[1].toString()),
+            qntItem: 0,
             cliente: listaClientes[1].toString(),
              ),
           ],
@@ -124,7 +143,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
               imagePath: 'imagemRestaurantePedido',
             endereco: listaEnderecos[2].toString(),
             itemPedido: listaNomesItens[2].toString(),
-            qntItem: int.parse(listaQuantidadesItens[2].toString()),
+           qntItem: 0,
             cliente: listaClientes[2].toString(),
      
              ),

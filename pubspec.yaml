@@ -52,6 +52,19 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Archive
+      fonts:
+        - asset: fonts/archive.otf
+    - family: Arimo
+      fonts:
+        - asset: fonts/Arimo-Bold.ttf
+    - family: LeagueSpartan
+      fonts:
+        - asset: fonts/LeagueSpartan-Bold.ttf
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

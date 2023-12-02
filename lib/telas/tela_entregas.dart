@@ -3,19 +3,19 @@ import 'package:modulo_logistica_sa/componentes/botao.dart';
 
 class TelaEntregas extends StatefulWidget {
   dynamic imagePath;
-  dynamic endereco;
-  dynamic qntItemPedido;
-  dynamic itemPedido;
+  dynamic enderecoRestaurante;
+  dynamic itens;
   dynamic cliente;
   dynamic nomeRestaurante;
+  dynamic enderecoCliente;
 
   TelaEntregas({
     required this.imagePath,
-    required this.endereco,
-    required this.qntItemPedido,
-    required this.itemPedido,
+    required this.enderecoRestaurante,
+    required this.itens,
     required this.cliente,
     required this.nomeRestaurante,
+    required this.enderecoCliente,
   });
 
   @override
@@ -30,10 +30,10 @@ class _TelaEntregasState extends State<TelaEntregas> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Entregas',
+          'ENTREGAS',
           style: TextStyle(
             fontSize: 45,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Archive',
             color: Color.fromARGB(255, 77, 106, 109),
           ),
         ),
@@ -65,38 +65,38 @@ class _TelaEntregasState extends State<TelaEntregas> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    widget.endereco,
+                    widget.enderecoRestaurante,
                     style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   const Text(
                     '\nPedido:',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'LeagueSpartan'),
                   ),
                   Text(
-                    widget.qntItemPedido,
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                  Text(
-                    widget.itemPedido,
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    widget.itens,
+                    style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
                   ),
                   const SizedBox(height: 10),
                   const Text(
                     'Cliente:',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'LeagueSpartan'),
                   ),
                   Text(
                     widget.cliente,
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
                   ),
                   Text(
                     widget.nomeRestaurante,
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
                   ),
+                    Text(
+                      widget.enderecoCliente,
+                       style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                    ),
                   Builder(
                     builder: (BuildContext context) {
                       return Botao(
-                        texto: 'Finalizar entrega',
+                        texto: 'Finalizar entrega', 
                         funcao: () {
                           setState(() {
                             botaoCor = Colors.green;

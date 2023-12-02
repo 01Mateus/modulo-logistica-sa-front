@@ -36,7 +36,10 @@ class _BotaoState extends State<Botao> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(widget.texto),
+            Text(widget.texto,
+                style: const TextStyle(
+                  fontFamily: 'Archive'
+                ),),
             const SizedBox(width: 9),
             Icon(widget.icone),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
 
+
 class TelaPedidos extends StatefulWidget {
   const TelaPedidos({Key? key}) : super(key: key);
 
@@ -11,12 +12,11 @@ class TelaPedidos extends StatefulWidget {
 
 class _TelaPedidosState extends State<TelaPedidos> {
   dynamic imagePath = "";
-  dynamic enderecoRestaurante = "";
-  dynamic qntItemPedido = "";
-  dynamic itemPedido = "";
-  dynamic cliente = "";
-  dynamic nomeRestaurante = "";
-  dynamic enderecoCliente = "";
+  dynamic nomeRestaurante = "Delícias do Chef";
+  dynamic enderecoRestaurante = "Av Marcolino Martins Cabral - Tubarão, 88701045";
+  dynamic itens = "2 - Camarões ao Alho";
+  dynamic cliente = "Kauan Mello Cancelier";
+  dynamic enderecoCliente = "R. João Bissoni - Sertão dos corrêas - Tubarão, SC";
 
   
 
@@ -37,12 +37,24 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
+                nomeRestaurante: nomeRestaurante, 
                 enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
                 enderecoCliente: enderecoCliente,
-                qntItemPedido: qntItemPedido,
-                itemPedido: itemPedido,
+                itens: itens,
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              ImagemTexto(
+                imagePath: imagePath,
                 nomeRestaurante: nomeRestaurante, 
+                enderecoRestaurante: enderecoRestaurante,
+                cliente: cliente,
+                enderecoCliente: enderecoCliente,
+                itens: itens,   
               ),
             ],
           ),
@@ -54,22 +66,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
                 enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
                 enderecoCliente: enderecoCliente,
-                qntItemPedido: qntItemPedido,
-                itemPedido: itemPedido,
-                nomeRestaurante: nomeRestaurante, 
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            children: [
-              ImagemTexto(
-                imagePath: imagePath,
-                enderecoRestaurante: enderecoRestaurante,
-                cliente: cliente,
-                enderecoCliente: enderecoCliente,
-                qntItemPedido: qntItemPedido,
-                itemPedido: itemPedido,
+                itens: itens,
                 nomeRestaurante: nomeRestaurante, 
               ),
               const SizedBox(height: 30),
@@ -80,12 +77,11 @@ class _TelaPedidosState extends State<TelaPedidos> {
             children: [
               ImagemTexto(
                 imagePath: imagePath,
+                nomeRestaurante: nomeRestaurante, 
                 enderecoRestaurante: enderecoRestaurante,
                 cliente: cliente,
                 enderecoCliente: enderecoCliente,
-                qntItemPedido: qntItemPedido,
-                itemPedido: itemPedido,
-                nomeRestaurante: nomeRestaurante, 
+                itens: itens,   
               ),
             ],
           ),
@@ -122,7 +118,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
             child: const ListTile(
               title: Text(
                 'Sair',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
               ),
               leading: Icon(Icons.logout),
             ),
@@ -141,7 +137,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
     title: const Text('PEDIDOS',
         style: TextStyle(
             fontSize: 45,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Archive',
             color: Color.fromARGB(255, 77, 106, 109))),
     automaticallyImplyLeading: false,
     centerTitle: true,

@@ -5,15 +5,14 @@ import 'package:modulo_logistica_sa/componentes/botao.dart';
 class ImagemTexto extends StatelessWidget {
   String imagePath;
   String enderecoRestaurante;
-  String itemPedido;
-  String qntItemPedido;
+  String itens;
   String cliente;
   String nomeRestaurante;
   String enderecoCliente;
 
  
 
-  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.qntItemPedido, required this.nomeRestaurante, required this.enderecoCliente})
+  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itens, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente})
       : super(key: key);
 
   @override
@@ -33,7 +32,12 @@ class ImagemTexto extends StatelessWidget {
                 width: 430,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: [ 
+                    Text(
+                      nomeRestaurante,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                    ),
+                    const SizedBox(height: 20),
                     CircleAvatar(
                       radius: 50,
                       backgroundImage: NetworkImage(imagePath.toString()),
@@ -41,40 +45,36 @@ class ImagemTexto extends StatelessWidget {
                    const SizedBox(height: 10),
                     Text(
                       enderecoRestaurante,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
+                    const SizedBox(height: 9),
                     const Text(
                       '\nPedido:',
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
+                    const SizedBox(height: 9),
                     Text(
-                      qntItemPedido,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      itens,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),   
                     ),
-                    Text(
-                      itemPedido,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),   
-                    ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     const Text(
                       'Cliente:',
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
+                    const SizedBox(height: 10),
                     Text(
                       cliente,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                     ),
                     Text(
                       enderecoCliente,
-                       style: const TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    Text(
-                      nomeRestaurante,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                       style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                     ),
                      Botao(
                       texto: 'Aceitar pedido',
                       funcao: () {
+                        Navigator.of(context).pop();
                         Navigator.of(context).pushNamed('/entregas');
                       },
                       cor: Colors.blue,
@@ -111,31 +111,27 @@ class ImagemTexto extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    nomeRestaurante,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                    ),
                   Text(
                     enderecoRestaurante,
                     textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                   ),
                   const Text(
                     '\nPedido:',
                     textAlign: TextAlign.start,
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                  Text(
-                    qntItemPedido,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                   ), 
                   Text(
-                    itemPedido,
+                    itens,
                     textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                   ),
-                  Text(
-                    nomeRestaurante,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                    ),
                 ],
               ),
             ),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -14,12 +16,15 @@ class ImagemTexto extends StatelessWidget {
   String cliente;
   String nomeRestaurante;
   String enderecoCliente;
+  dynamic idPedido;
+
+  late String emailUsuario;
+  late Logistica logistica;
 
  
 
-  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente})
+  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente, required this.idPedido, required this.emailUsuario})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -91,11 +96,14 @@ class ImagemTexto extends StatelessWidget {
                         nomeRestaurante: nomeRestaurante, 
                         clientes: cliente, 
                         nomesItens: itemPedido, 
-                        imagemRestaurantePedido: imagePath, logistica: Logistica('admin','fretefrete','token'),
+                        imagemRestaurantePedido: imagePath,
+                        idPedido: idPedido,
+                        logistica: Logistica('admin','fretefrete','token'), emailUsuario: emailUsuario.toString(),
+                        
+                        ),
           // Passe os dados necessários para a próxima tela
                           ),
-                        ),
-                      );
+                        );
                       },
                       cor: Colors.blue,
                       icone: Icons.add,

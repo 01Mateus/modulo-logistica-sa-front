@@ -14,7 +14,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -28,9 +28,12 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login', routes: {
         // ignore: prefer_const_constructors
-        '/login':(context) => TelaLogin(login: Login('',''),),
-        '/pedidos':(context) => TelaPedidos(pedidos: Pedidos('integracao@pedidos.com','querocafe','token'), marketplace: Marketplace('usuario5.lojista', '123456', 'token', ''),),
-        '/entregas':(context) => TelaEntregas(enderecoRestaurante: '', enderecoCliente: '', clientes: '', nomesItens: '', imagemRestaurantePedido: Uint8List(0), nomeRestaurante: '', logistica: Logistica('admin','fretefrete','token'),)
+        '/login':(context) => TelaLogin(login: Login('',''), emailUsuario: '',),
+        '/pedidos':(context) => TelaPedidos(pedidos: Pedidos('integracao@pedidos.com','querocafe','token'), marketplace: Marketplace('usuario5.lojista', '123456', 'token', ''), emailUsuario: '',),
+        '/entregas':(context) => TelaEntregas(enderecoRestaurante: '', enderecoCliente: '', 
+        clientes: '', nomesItens: '', imagemRestaurantePedido: Uint8List(0), 
+        nomeRestaurante: '', logistica: Logistica('admin','fretefrete','token'), 
+        idPedido: '', emailUsuario: '',)
       },
     );
   }

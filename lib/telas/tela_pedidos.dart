@@ -13,15 +13,16 @@ import 'package:modulo_logistica_sa/modelos/pedidos.dart';
 class TelaPedidos extends StatefulWidget {
   final Pedidos pedidos; // Recebendo a instância de Login
   final Marketplace marketplace;
-  const TelaPedidos({Key? key, required this.pedidos, required this.marketplace}) : super(key: key);
+  final String emailUsuario;
+  const TelaPedidos({Key? key, required this.pedidos, required this.marketplace, required this.emailUsuario}) : super(key: key);
 
   @override
   State<TelaPedidos> createState() => _TelaPedidosState();
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {  
+
   bool  _atualizacaoRealizada = false;
-  
   List<dynamic> listaIdRestaurantePedido = [];
   List<dynamic> listaEnderecoRestaurante = [];
   List<dynamic> listaEnderecoCliente = [];
@@ -31,13 +32,26 @@ class _TelaPedidosState extends State<TelaPedidos> {
   List<dynamic> listaCepRestaurantePedido = [];
   List<Uint8List> listaImagemRestaurantePedido = [];
   List<dynamic> listaNomeRestaurante = [];
+  List<dynamic> listaIdPedido = [];
 
   @override
   void initState() {
     super.initState();
+    widget.emailUsuario;
     _atualizarTelaPeriodicamente();
     authPedidos();
   }
+  @override
+  void dispose() {
+    super.dispose();
+    widget.emailUsuario;
+    _atualizarTelaPeriodicamente();
+    authPedidos();
+    buscarApiPedidos();
+    String idRestaurante = "";
+    buscarImagemMarketplace(idRestaurante);
+  }
+
    
   Future<Map<String, dynamic>?> authPedidos(
   ) async {
@@ -62,7 +76,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDataLogin = json.decode(response.body);
         widget.pedidos.tokenPedidos = responseDataLogin['token'];
-      
+
         return responseDataLogin;
       } else {
         // Tratar outros códigos de status, se necessário
@@ -79,19 +93,21 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
 
   Future<void> _atualizarTelaPeriodicamente() async {
-   while (mounted) {
+   if (mounted) {
     // Chama a função para recarregar os dados ou atualizar a tela aqui
     await authPedidos();
     await buscarApiPedidos();
     await atualizarImagensMarketplace();
+    _atualizacaoRealizada;
+    widget.emailUsuario;
 
     setState(() {
-      // Faça qualquer ação necessária para recarregar os dados
       _atualizacaoRealizada = true;
     });
 
     // Espera 30 segundos antes de atualizar novamente
-    await Future.delayed(const Duration(seconds: 30));
+    Future.delayed(const Duration(seconds: 30));
+    
 
     setState(() {
       _atualizacaoRealizada = false;
@@ -132,7 +148,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
         String bairroCliente = pedido['endereco']['bairro'];
         String cidadeCliente = pedido['endereco']['cidade'];
         String estadoCliente = pedido['endereco']['estado'];
-        String idRetaurante = pedido['restaurante']['id_restaurante'].toString();
+        String idRestaurante = pedido['restaurante']['id_restaurante'].toString();
+        String idPedido = pedido['id_pedido'].toString();
 
         String enderecoCompletoCliente = '$ruaCliente - $bairroCliente - $cidadeCliente, $estadoCliente';
 
@@ -144,7 +161,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
         String enderecoCompletoResta = '$rua - $bairro - $cidade, $cepRestaurante';
         
-        listaIdRestaurantePedido.add(idRetaurante);
+        listaIdPedido.add(idPedido);
+        listaIdRestaurantePedido.add(idRestaurante);
         listaEnderecoRestaurante.add(enderecoCompletoResta);
         listaClientes.add(cliente);
         listaNomeRestaurante.add(nomeRestaurante);
@@ -203,6 +221,9 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
  @override
 Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    final emailUsuario = arguments as String;
+
   criarConteudo() {
     if (
       listaClientes.isEmpty ||
@@ -210,7 +231,8 @@ Widget build(BuildContext context) {
       listaNomesItens.isEmpty ||
       listaEnderecoCliente.isEmpty ||
       listaNomeRestaurante.isEmpty ||
-      listaIdRestaurantePedido.isEmpty
+      listaIdRestaurantePedido.isEmpty ||
+      listaIdPedido.isEmpty
     ) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -218,7 +240,7 @@ Widget build(BuildContext context) {
     } else if (listaImagemRestaurantePedido.isEmpty ||
         listaImagemRestaurantePedido.length < 4) {
       return const Center(
-        child: Text('Aguarde, carregando imagens...'),
+        child: CircularProgressIndicator(),
       );
     } else {
       // Conteúdo pronto para ser exibido
@@ -251,7 +273,8 @@ Widget build(BuildContext context) {
             itemPedido: listaNomesItens[0].toString(),
             cliente: listaClientes[0].toString(),
             enderecoCliente: listaEnderecoCliente[0].toString(), 
-            nomeRestaurante: listaNomeRestaurante[0].toString(),
+            nomeRestaurante: listaNomeRestaurante[0].toString(), 
+            idPedido: listaIdPedido[0].toString(), emailUsuario: emailUsuario,
               )
             ],
           ),
@@ -264,7 +287,8 @@ Widget build(BuildContext context) {
             itemPedido: listaNomesItens[1].toString(),
             cliente: listaClientes[1].toString(),
             enderecoCliente: listaEnderecoCliente[1].toString(), 
-            nomeRestaurante: listaNomeRestaurante[1].toString(),
+            nomeRestaurante: listaNomeRestaurante[1].toString(), 
+            idPedido: listaIdPedido[1].toString(), emailUsuario: emailUsuario,
               )
             ],
           ),
@@ -277,7 +301,9 @@ Widget build(BuildContext context) {
             itemPedido: listaNomesItens[2].toString(),
             cliente: listaClientes[2].toString(),
             enderecoCliente: listaEnderecoCliente[2].toString(), 
-            nomeRestaurante: listaNomeRestaurante[2].toString(),
+            nomeRestaurante: listaNomeRestaurante[2].toString(), 
+            idPedido: listaIdPedido[2].toString(),
+            emailUsuario: emailUsuario,
               )
             ],
           ),
@@ -290,7 +316,9 @@ Widget build(BuildContext context) {
             itemPedido: listaNomesItens[3].toString(),
             cliente: listaClientes[3].toString(),
             enderecoCliente: listaEnderecoCliente[3].toString(), 
-            nomeRestaurante: listaNomeRestaurante[3].toString(),
+            nomeRestaurante: listaNomeRestaurante[3].toString(), 
+            idPedido: listaIdPedido[3].toString(),
+            emailUsuario: emailUsuario,
               )
             ],
           ),
@@ -300,6 +328,8 @@ Widget build(BuildContext context) {
         ), 
       );
     }
+    
+
 
      return Scaffold(
   endDrawer: Drawer(

@@ -10,14 +10,18 @@ import 'package:modulo_logistica_sa/modelos/logistica.dart';
 
 // ignore: must_be_immutable
 class TelaEntregas extends StatefulWidget {
+  final String emailUsuario;
+  final Logistica logistica;
+  
   dynamic enderecoRestaurante;
   dynamic enderecoCliente;
   dynamic clientes;
   dynamic nomesItens;
   Uint8List imagemRestaurantePedido;
   dynamic nomeRestaurante;
+  dynamic idPedido;
+  dynamic idFrete = 0;
 
-  final Logistica logistica;
 
   TelaEntregas({super.key, 
   required this.enderecoRestaurante,
@@ -25,18 +29,27 @@ class TelaEntregas extends StatefulWidget {
   required this.clientes,
   required this.nomesItens,
   required this.imagemRestaurantePedido,
-  required this.nomeRestaurante, required this.logistica,
+  required this.nomeRestaurante, 
+  required this.logistica,
+  required this.idPedido,
+  required this.emailUsuario,
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _TelaEntregasState createState() => _TelaEntregasState();
 }
 
 class _TelaEntregasState extends State<TelaEntregas> {
+  
+
+
       @override
   void initState() {
     super.initState();
     authLogistica();
+    buscarApiFreteAceito();
+    widget.emailUsuario;
   }
 
   Future<Map<String, dynamic>?> authLogistica(
@@ -46,13 +59,15 @@ class _TelaEntregasState extends State<TelaEntregas> {
       'senha': widget.logistica.senhaLogistica,
     };
 
-    final uriLogin = Uri.parse("http://localhost:3000/auth");
+    final uriLogin = Uri.parse("http://localhost:9089/auth");
 
     try {
       Response response = await post(uriLogin,
         body: json.encode(request),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD",
           // Adicione os cabeçalhos necessários aqui, como autorização, etc.
         },
       );
@@ -62,7 +77,9 @@ class _TelaEntregasState extends State<TelaEntregas> {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDataLogin = json.decode(response.body);
         widget.logistica.tokenLogistica = responseDataLogin['token'];
+
       
+        print( widget.logistica.tokenLogistica);
         return responseDataLogin;
       } else {
         // Tratar outros códigos de status, se necessário
@@ -76,39 +93,67 @@ class _TelaEntregasState extends State<TelaEntregas> {
     }
   }
 
-
-    dynamic idEntregador;
-
   
-    Future<void> buscarApiRhEmail() async {
+ Future<void> buscarApiFreteAceito() async {
+
+
     Uri uri = Uri.parse(
-        "http://localhost:8080/entregador/email/kauanmello123@gmail.com");
+        "http://localhost:9089/frete/id/${widget.idFrete}/idPedido/${widget.idPedido}/emailEntregador/${widget.emailUsuario}/aceitoParaEntrega");
 
     try {
-      Response response = await get(
+      Response response = await patch(
         uri,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjg1ODUiLCJpYXQiOjE3MDE1MDA4NDcsImV4cCI6MTcwMTY4MDg0N30.cI50ZNDAn-SXz13mWZMv5EYER0-yWdugMFciFWgN6qg', // Substitua pelo seu token real
+              'Bearer: ' '${widget.logistica.tokenLogistica}', // Substitua pelo seu token real
         },
       );
-        print(response);
 
       if (response.statusCode == 200) {
 
-
+        print(response);
+        setState(() {}); // Atualiza o estado da interface após buscar os pedidos
       } else {
-        print('Erro na requisição: ${response.statusCode}');
+        print('Erro na requisição do frete: ${response.statusCode}');
       }
     } catch (e) {
 
-      print('Erro na requisição exception: $e');
+      print('Erro na requisição exception frete: $e');
     }
   }
 
-  Color botaoCor = Colors.blue; 
+  Future<void> buscarApiFreteEntregue() async {
 
+    Uri uri = Uri.parse(
+        "http://localhost:9089/frete/id/${widget.idFrete}/idPedido/${widget.idPedido}/emailEntregador/${widget.emailUsuario}/entregue");
+
+    try {
+      Response response = await patch(
+        uri,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization':
+              'Bearer: ' '${widget.logistica.tokenLogistica}', // Substitua pelo seu token real
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print(response);
+        setState(() {}); // Atualiza o estado da interface após buscar os pedidos
+      } else {
+        print('Erro na requisição do frete: ${response.statusCode}');
+      }
+    } catch (e) {
+
+      print('Erro na requisição exception frete: $e');
+    }
+  }
+
+
+
+
+  Color botaoCor = Colors.blue; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

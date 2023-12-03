@@ -9,8 +9,10 @@ import 'package:modulo_logistica_sa/componentes/caixa_texto.dart';
 import 'package:modulo_logistica_sa/modelos/login.dart';
 
 class TelaLogin extends StatefulWidget {
-  final Login login; // Recebendo a instância de Login
-  const TelaLogin({Key? key, required this.login}) : super(key: key);
+  final Login login;
+ // Recebendo a instância de Login
+  final String emailUsuario;
+  const TelaLogin({Key? key, required this.login, required this.emailUsuario}) : super(key: key);
 
 
   @override
@@ -25,20 +27,23 @@ class _telaLoginState extends State<TelaLogin> {
    @override
      void initState() {
     super.initState();
-    
+    _abrirTelaLoginAposAtraso();
     txtUsername = TextEditingController(text: widget.login.loginUsuario);
     txtPassword = TextEditingController(text: widget.login.senhaUsuario);
   } 
   
+  
+   Future<void> _abrirTelaLoginAposAtraso() async {
+    // Adiciona um atraso de 5 segundos
+    await Future.delayed(const Duration(seconds: 5));
+  }
 
    Future<Map<String, dynamic>?> buscarApiLogin(
-
-    String loginApi,
-    String senhaApi,
+    
   ) async {
     Map<String, dynamic> request = {
-      'email': loginApi,
-      'senha': senhaApi,
+      'email': widget.login.loginUsuario,
+      'senha': widget.login.senhaUsuario,
     };
 
     final uriLogin = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
@@ -73,15 +78,19 @@ class _telaLoginState extends State<TelaLogin> {
 
 void login() async {
     if (formKey.currentState!.validate()) {
-      String loginApi = txtUsername.text;
-      String senhaApi = txtPassword.text;
+      widget.login.loginUsuario = txtUsername.text;
+      widget.login.senhaUsuario = txtPassword.text;
 
-      Map<String, dynamic>? response = await buscarApiLogin(loginApi, senhaApi);
+      late String emailUsuario = txtUsername.text;
+
+      Map<String, dynamic>? response = await buscarApiLogin();
       if (response != null) {
         // Aqui você pode usar os dados da resposta, se necessário
         // Exemplo: String token = response['token'];
+        print(emailUsuario);
         // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacementNamed('/pedidos');
+        Navigator.of(context).pushReplacementNamed('/pedidos', arguments: emailUsuario);
+        
       } else {
         // Tratar erro de autenticação
         // Exemplo: exibir mensagem de erro para o usuário
@@ -103,6 +112,7 @@ void login() async {
   }
 
 criarConteudo() {
+
   return Center(
   child: SingleChildScrollView(
     scrollDirection: Axis.vertical,

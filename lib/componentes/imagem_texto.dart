@@ -1,20 +1,30 @@
+// ignore_for_file: avoid_print
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/modelos/logistica.dart';
+import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
 
 
+// ignore: must_be_immutable
 class ImagemTexto extends StatelessWidget {
-  String imagePath;
+  Uint8List imagePath;
   String enderecoRestaurante;
-  String itens;
+  String itemPedido;
   String cliente;
   String nomeRestaurante;
   String enderecoCliente;
+  dynamic idPedido;
+
+  late String emailUsuario;
+  late Logistica logistica;
 
  
 
-  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itens, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente})
+  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente, required this.idPedido, required this.emailUsuario})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -32,50 +42,70 @@ class ImagemTexto extends StatelessWidget {
                 width: 430,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [ 
-                    Text(
-                      nomeRestaurante,
-                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                    ),
-                    const SizedBox(height: 20),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(imagePath.toString()),
-                    ),
+                  children: [
+                   Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: MemoryImage(imagePath), 
+                          fit: BoxFit.cover,
+                        ),
+                        ),
+                      ),
                    const SizedBox(height: 10),
                     Text(
                       enderecoRestaurante,
                       style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
-                    const SizedBox(height: 9),
                     const Text(
                       '\nPedido:',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
+                      style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),  
                     ),
-                    const SizedBox(height: 9),
                     Text(
-                      itens,
-                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),   
+                      itemPedido,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),    
                     ),
                     const SizedBox(height: 20),
                     const Text(
                       'Cliente:',
                       style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
-                    const SizedBox(height: 10),
                     Text(
                       cliente,
-                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'LeagueSpartan'),
                     ),
+                    const SizedBox(height: 10),
                     Text(
                       enderecoCliente,
-                       style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      nomeRestaurante,
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                     ),
                      Botao(
                       texto: 'Aceitar pedido',
                       funcao: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed('/entregas');
+                       Navigator.of(context).pop();
+                       Navigator.of(context).push(
+                        MaterialPageRoute(
+                        builder: (context) => TelaEntregas(
+                        enderecoRestaurante: enderecoRestaurante,
+                        enderecoCliente: enderecoCliente,
+                        nomeRestaurante: nomeRestaurante, 
+                        clientes: cliente, 
+                        nomesItens: itemPedido, 
+                        imagemRestaurantePedido: imagePath,
+                        idPedido: idPedido,
+                        logistica: Logistica('admin','fretefrete','token'), emailUsuario: emailUsuario.toString(),
+                        
+                        ),
+       
+                          ),
+                        );
                       },
                       cor: Colors.blue,
                       icone: Icons.add,
@@ -101,22 +131,24 @@ class ImagemTexto extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(imagePath),
-              ),
+              child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: MemoryImage(imagePath), 
+                          fit: BoxFit.cover,
+                        ),
+                        ),
+                      ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
-                  Text(
-                    nomeRestaurante,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                    ),
+                  const SizedBox(height: 20),
                   Text(
                     enderecoRestaurante,
                     textAlign: TextAlign.start,
@@ -126,12 +158,17 @@ class ImagemTexto extends StatelessWidget {
                     '\nPedido:',
                     textAlign: TextAlign.start,
                     style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                  ), 
+                  ),
                   Text(
-                    itens,
+                    itemPedido,
                     textAlign: TextAlign.right,
                     style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                   ),
+                  Text(
+                    nomeRestaurante,
+                    textAlign: TextAlign.start,
+                  style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                    ),
                 ],
               ),
             ),

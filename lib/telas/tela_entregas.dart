@@ -1,21 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:modulo_logistica_sa/componentes/botao.dart';
+// ignore_for_file: avoid_print
 
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/modelos/logistica.dart';
+
+// ignore: must_be_immutable
 class TelaEntregas extends StatefulWidget {
-  dynamic imagePath;
-  dynamic endereco;
-  dynamic qntItemPedido;
-  dynamic itemPedido;
-  dynamic cliente;
+  dynamic enderecoRestaurante;
+  dynamic enderecoCliente;
+  dynamic clientes;
+  dynamic nomesItens;
+  Uint8List imagemRestaurantePedido;
   dynamic nomeRestaurante;
 
-  TelaEntregas({
-    required this.imagePath,
-    required this.endereco,
-    required this.qntItemPedido,
-    required this.itemPedido,
-    required this.cliente,
-    required this.nomeRestaurante,
+  final Logistica logistica;
+
+  TelaEntregas({super.key, 
+  required this.enderecoRestaurante,
+  required this.enderecoCliente,
+  required this.clientes,
+  required this.nomesItens,
+  required this.imagemRestaurantePedido,
+  required this.nomeRestaurante, required this.logistica,
   });
 
   @override
@@ -23,6 +33,80 @@ class TelaEntregas extends StatefulWidget {
 }
 
 class _TelaEntregasState extends State<TelaEntregas> {
+      @override
+  void initState() {
+    super.initState();
+    authLogistica();
+  }
+
+  Future<Map<String, dynamic>?> authLogistica(
+  ) async {
+    Map<String, dynamic> request = {
+      'login': widget.logistica.loginLogistica,
+      'senha': widget.logistica.senhaLogistica,
+    };
+
+    final uriLogin = Uri.parse("http://localhost:3000/auth");
+
+    try {
+      Response response = await post(uriLogin,
+        body: json.encode(request),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          // Adicione os cabeçalhos necessários aqui, como autorização, etc.
+        },
+      );
+
+      
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseDataLogin = json.decode(response.body);
+        widget.logistica.tokenLogistica = responseDataLogin['token'];
+      
+        return responseDataLogin;
+      } else {
+        // Tratar outros códigos de status, se necessário
+        print('Erro na requisição: ${response.statusCode}');
+        return null; // Ou lançar uma exceção com detalhes do erro
+      }
+    } catch (e) {
+      // Tratar erros de conexão ou requisição
+      print('Erro na requisição exception: $e');
+      return null; // Ou lançar uma exceção com detalhes do erro
+    }
+  }
+
+
+    dynamic idEntregador;
+
+  
+    Future<void> buscarApiRhEmail() async {
+    Uri uri = Uri.parse(
+        "http://localhost:8080/entregador/email/kauanmello123@gmail.com");
+
+    try {
+      Response response = await get(
+        uri,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjg1ODUiLCJpYXQiOjE3MDE1MDA4NDcsImV4cCI6MTcwMTY4MDg0N30.cI50ZNDAn-SXz13mWZMv5EYER0-yWdugMFciFWgN6qg', // Substitua pelo seu token real
+        },
+      );
+        print(response);
+
+      if (response.statusCode == 200) {
+
+
+      } else {
+        print('Erro na requisição: ${response.statusCode}');
+      }
+    } catch (e) {
+
+      print('Erro na requisição exception: $e');
+    }
+  }
+
   Color botaoCor = Colors.blue; 
 
   @override
@@ -61,11 +145,11 @@ class _TelaEntregasState extends State<TelaEntregas> {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: NetworkImage(widget.imagePath),
+                    backgroundImage: MemoryImage(widget.imagemRestaurantePedido),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    widget.endereco,
+                    widget.enderecoRestaurante,
                     style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   const Text(
@@ -73,11 +157,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   Text(
-                    widget.qntItemPedido,
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                  Text(
-                    widget.itemPedido,
+                    widget.nomesItens,
                     style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   const SizedBox(height: 10),
@@ -86,7 +166,11 @@ class _TelaEntregasState extends State<TelaEntregas> {
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   Text(
-                    widget.cliente,
+                    widget.clientes,
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                   Text(
+                    widget.enderecoCliente,
                     style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                   Text(
@@ -101,7 +185,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
                           setState(() {
                             botaoCor = Colors.green;
                           });
-                          Future.delayed(Duration(seconds: 1), () {
+                          Future.delayed(const Duration(seconds: 1), () {
                             Navigator.of(context).pop('/pedidos');
                           });
                         },

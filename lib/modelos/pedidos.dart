@@ -1,19 +1,7 @@
 class Pedidos {
-  dynamic imagePath;
-  dynamic endereco;
-  dynamic qntItemPedido;
-  dynamic itemPedido;
-  dynamic cliente;
-  dynamic nomeRestaurante;
+  dynamic loginPedidos = 'integracao@pedidos.com';
+  dynamic senhaPedidos = 'querocafe';
+  dynamic tokenPedidos;
 
-Pedidos(this.cliente, this.endereco, this.imagePath, this.itemPedido, this.qntItemPedido, this.nomeRestaurante);
-
-  Pedidos.inciar() {
-    imagePath = "";
-    endereco = "";
-    qntItemPedido = 0;
-    itemPedido = "";
-    cliente = "";
-    nomeRestaurante = "";
-  }
+Pedidos(this.loginPedidos, this.senhaPedidos, this.tokenPedidos);
 }

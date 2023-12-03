@@ -1,18 +1,96 @@
+// ignore_for_file: avoid_print, camel_case_types
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/componentes/caixa_texto.dart';
+import 'package:modulo_logistica_sa/modelos/login.dart';
 
 class TelaLogin extends StatefulWidget {
-  const TelaLogin({super.key});
+  final Login login; // Recebendo a instância de Login
+  const TelaLogin({Key? key, required this.login}) : super(key: key);
+
 
   @override
   State<TelaLogin> createState() => _telaLoginState();
 }
-final txtUsername = TextEditingController();
-final txtPassword = TextEditingController();
-final formKey = GlobalKey<FormState>();
 
 class _telaLoginState extends State<TelaLogin> {
+  late TextEditingController txtUsername = TextEditingController();
+  late TextEditingController txtPassword = TextEditingController();
+  final formKey = GlobalKey<FormState>();   
+
+   @override
+     void initState() {
+    super.initState();
+    
+    txtUsername = TextEditingController(text: widget.login.loginUsuario);
+    txtPassword = TextEditingController(text: widget.login.senhaUsuario);
+  } 
+  
+
+   Future<Map<String, dynamic>?> buscarApiLogin(
+
+    String loginApi,
+    String senhaApi,
+  ) async {
+    Map<String, dynamic> request = {
+      'email': loginApi,
+      'senha': senhaApi,
+    };
+
+    final uriLogin = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
+
+    try {
+      Response response = await post(uriLogin,
+        body: json.encode(request),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          // Adicione os cabeçalhos necessários aqui, como autorização, etc.
+        },
+      );
+
+      
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseDataLogin = json.decode(response.body);
+        
+        return responseDataLogin;
+      } else {
+        // Tratar outros códigos de status, se necessário
+        print('Erro na requisição: ${response.statusCode}');
+        return null; // Ou lançar uma exceção com detalhes do erro
+      }
+    } catch (e) {
+      // Tratar erros de conexão ou requisição
+      print('Erro na requisição exception: $e');
+      return null; // Ou lançar uma exceção com detalhes do erro
+    }
+  }
+  
+
+void login() async {
+    if (formKey.currentState!.validate()) {
+      String loginApi = txtUsername.text;
+      String senhaApi = txtPassword.text;
+
+      Map<String, dynamic>? response = await buscarApiLogin(loginApi, senhaApi);
+      if (response != null) {
+        // Aqui você pode usar os dados da resposta, se necessário
+        // Exemplo: String token = response['token'];
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacementNamed('/pedidos');
+      } else {
+        // Tratar erro de autenticação
+        // Exemplo: exibir mensagem de erro para o usuário
+        txtUsername.text = "Login ou senha inválidos";
+        txtPassword.text = "";
+      }
+    }
+  }
+  
   @override
 
   Widget build(BuildContext context) {
@@ -22,12 +100,6 @@ class _telaLoginState extends State<TelaLogin> {
       body: criarConteudo(),
       
     );
-  }
-
-  login() {
-    if (formKey.currentState!.validate()) {
-    Navigator.of(context).pushNamed('/pedidos');
-    }
   }
 
 criarConteudo() {

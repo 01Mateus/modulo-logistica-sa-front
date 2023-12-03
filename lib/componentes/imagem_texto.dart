@@ -1,19 +1,23 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/modelos/logistica.dart';
+import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
 
 
+// ignore: must_be_immutable
 class ImagemTexto extends StatelessWidget {
-  String imagePath;
+  Uint8List imagePath;
   String enderecoRestaurante;
   String itemPedido;
-  String qntItemPedido;
   String cliente;
   String nomeRestaurante;
   String enderecoCliente;
 
  
 
-  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.qntItemPedido, required this.nomeRestaurante, required this.enderecoCliente})
+  ImagemTexto({Key? key, required this.imagePath, required this.enderecoRestaurante, required this.itemPedido, required this.cliente, required this.nomeRestaurante, required this.enderecoCliente})
       : super(key: key);
 
   @override
@@ -34,10 +38,17 @@ class ImagemTexto extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(imagePath.toString()),
-                    ),
+                   Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: MemoryImage(imagePath), // Utilize MemoryImage para os bytes da imagem
+                          fit: BoxFit.cover,
+                        ),
+                        ),
+                      ),
                    const SizedBox(height: 10),
                     Text(
                       enderecoRestaurante,
@@ -46,10 +57,6 @@ class ImagemTexto extends StatelessWidget {
                     const Text(
                       '\nPedido:',
                       style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    Text(
-                      qntItemPedido,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
                       itemPedido,
@@ -75,7 +82,20 @@ class ImagemTexto extends StatelessWidget {
                      Botao(
                       texto: 'Aceitar pedido',
                       funcao: () {
-                        Navigator.of(context).pushNamed('/entregas');
+                       Navigator.of(context).pop();
+                       Navigator.of(context).push(
+                        MaterialPageRoute(
+                        builder: (context) => TelaEntregas(
+                        enderecoRestaurante: enderecoRestaurante,
+                        enderecoCliente: enderecoCliente,
+                        nomeRestaurante: nomeRestaurante, 
+                        clientes: cliente, 
+                        nomesItens: itemPedido, 
+                        imagemRestaurantePedido: imagePath, logistica: Logistica('admin','fretefrete','token'),
+          // Passe os dados necessários para a próxima tela
+                          ),
+                        ),
+                      );
                       },
                       cor: Colors.blue,
                       icone: Icons.add,
@@ -101,10 +121,17 @@ class ImagemTexto extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(imagePath),
-              ),
+              child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: MemoryImage(imagePath), // Utilize MemoryImage para os bytes da imagem
+                          fit: BoxFit.cover,
+                        ),
+                        ),
+                      ),
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -121,11 +148,6 @@ class ImagemTexto extends StatelessWidget {
                     textAlign: TextAlign.start,
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
-                  Text(
-                    qntItemPedido,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                  ), 
                   Text(
                     itemPedido,
                     textAlign: TextAlign.right,

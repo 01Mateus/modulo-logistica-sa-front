@@ -1,6 +1,6 @@
 class Login {
-  String loginUsuario;
-  String senhaUsuario;
+  dynamic loginUsuario;
+  dynamic senhaUsuario;
 
 
   Login(this.loginUsuario, this.senhaUsuario);

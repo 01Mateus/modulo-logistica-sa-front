@@ -1,4 +1,5 @@
 class Pedidos {
+<<<<<<< HEAD
   dynamic imagePath;
   dynamic endereco;
   dynamic qntItemPedido;
@@ -14,4 +15,11 @@ Pedidos(this.cliente, this.endereco, this.imagePath, this.itemPedido, this.qntIt
     itemPedido = "";
     cliente = "";
   }
+=======
+  dynamic loginPedidos = 'integracao@pedidos.com';
+  dynamic senhaPedidos = 'querocafe';
+  dynamic tokenPedidos;
+
+Pedidos(this.loginPedidos, this.senhaPedidos, this.tokenPedidos);
+>>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_is_empty
 
 import 'dart:async';
 import 'dart:convert';
@@ -22,7 +22,7 @@ class TelaPedidos extends StatefulWidget {
 
 class _TelaPedidosState extends State<TelaPedidos> {  
 
-  bool  _atualizacaoRealizada = false;
+  late bool  _atualizacaoRealizada = false;
   List<dynamic> listaIdRestaurantePedido = [];
   List<dynamic> listaEnderecoRestaurante = [];
   List<dynamic> listaEnderecoCliente = [];
@@ -34,22 +34,18 @@ class _TelaPedidosState extends State<TelaPedidos> {
   List<dynamic> listaNomeRestaurante = [];
   List<dynamic> listaIdPedido = [];
 
+   late Timer _timer;
+
   @override
   void initState() {
     super.initState();
-    widget.emailUsuario;
-    _atualizarTelaPeriodicamente();
     authPedidos();
   }
+
   @override
   void dispose() {
+    _timer.cancel();
     super.dispose();
-    widget.emailUsuario;
-    _atualizarTelaPeriodicamente();
-    authPedidos();
-    buscarApiPedidos();
-    String idRestaurante = "";
-    buscarImagemMarketplace(idRestaurante);
   }
 
    
@@ -77,7 +73,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
         Map<String, dynamic> responseDataLogin = json.decode(response.body);
         widget.pedidos.tokenPedidos = responseDataLogin['token'];
 
-        return responseDataLogin;
+        buscarApiPedidos();
       } else {
         // Tratar outros códigos de status, se necessário
         print('Erro na requisição: ${response.statusCode}');
@@ -88,32 +84,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
       print('Erro na requisição exception: $e');
       return null; // Ou lançar uma exceção com detalhes do erro
     }
+    return null;
   }
-
-
-
-  Future<void> _atualizarTelaPeriodicamente() async {
-   if (mounted) {
-    // Chama a função para recarregar os dados ou atualizar a tela aqui
-    await authPedidos();
-    await buscarApiPedidos();
-    await atualizarImagensMarketplace();
-    _atualizacaoRealizada;
-    widget.emailUsuario;
-
-    setState(() {
-      _atualizacaoRealizada = true;
-    });
-
-    // Espera 30 segundos antes de atualizar novamente
-    Future.delayed(const Duration(seconds: 30));
-    
-
-    setState(() {
-      _atualizacaoRealizada = false;
-    });
-  }
-}
     Future<void> atualizarImagensMarketplace() async {
     for (var idRestaurante in listaIdRestaurantePedido) {
     await buscarImagemMarketplace(idRestaurante.toString());
@@ -153,23 +125,25 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
         String enderecoCompletoCliente = '$ruaCliente - $bairroCliente - $cidadeCliente, $estadoCliente';
 
-        listaEnderecoCliente.add(enderecoCompletoCliente);
-
         String rua = pedido['restaurante']['rua'];
         String bairro = pedido['restaurante']['bairro'];
         String cidade = pedido['restaurante']['cidade'];
 
         String enderecoCompletoResta = '$rua - $bairro - $cidade, $cepRestaurante';
         
+        listaEnderecoCliente.add(enderecoCompletoCliente);
         listaIdPedido.add(idPedido);
         listaIdRestaurantePedido.add(idRestaurante);
         listaEnderecoRestaurante.add(enderecoCompletoResta);
         listaClientes.add(cliente);
         listaNomeRestaurante.add(nomeRestaurante);
 
-        List<dynamic> itensPedidos = pedido['opcoes'];
+        listaNomesItens.clear();
 
-        for (var item in itensPedidos) {
+        buscarImagemMarketplace(idRestaurante);
+
+        List<dynamic> itensPedidos = pedido['opcoes'];
+         for (var item in itensPedidos) {
           String nomeItem = item['nome'];
           int quantidade = item['qtde_itens'];
 
@@ -178,12 +152,11 @@ class _TelaPedidosState extends State<TelaPedidos> {
           listaNomesItens.add(itemCompleto);
      
         }
-        }
-        for (var idRestaurante in listaIdRestaurantePedido) {
-        await buscarImagemMarketplace(idRestaurante.toString());
-        } 
-
-        setState(() {}); 
+        }         
+        setState(() {
+          _atualizacaoRealizada = true;
+        }); 
+        
       } else {
         print('Erro na requisição da duda: ${response.statusCode}');
       }
@@ -193,9 +166,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
     }
   }
 
-      Future<void> buscarImagemMarketplace(String idRestaurante) async {
-      
-
+  Future<void> buscarImagemMarketplace(String idRestaurante) async {
     Uri uri = Uri.parse(
         "https://cardapios-mktplace-api-production.up.railway.app/restaurantes/id/$idRestaurante/foto");
     try {
@@ -207,9 +178,18 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
         Uint8List responseImage = response.bodyBytes;
 
-         listaImagemRestaurantePedido.add(responseImage);
-
-        setState(() {}); 
+        // Encontrando o índice correspondente na lista de idRestaurantePedido
+        int index = listaIdRestaurantePedido.indexOf(idRestaurante);
+      
+      // Verificando se o restaurante está na lista de pedidos
+        if (index != -1) {
+        // Adicionando a imagem correspondente ao restaurante na lista de imagens
+          listaImagemRestaurantePedido.insert(index, responseImage);
+          print(listaImagemRestaurantePedido);
+        }
+        
+        setState(() {
+        }); 
       } else {
         print('Erro na requisição do professor: ${response.statusCode}');
       }
@@ -224,6 +204,7 @@ Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments;
     final emailUsuario = arguments as String;
 
+    
   criarConteudo() {
     if (
       listaClientes.isEmpty ||
@@ -237,13 +218,20 @@ Widget build(BuildContext context) {
       return const Center(
         child: CircularProgressIndicator(),
       );
-    } else if (listaImagemRestaurantePedido.isEmpty ||
-        listaImagemRestaurantePedido.length < 4) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    } else if (listaClientes.length < 1 ||
+             listaEnderecoRestaurante.length < 1 ||
+             listaNomesItens.length < 1 ||
+             listaEnderecoCliente.length < 1 ||
+             listaNomeRestaurante.length < 1 ||
+             listaIdRestaurantePedido.length < 1 ||
+             listaIdPedido.length < 1) {
+    return const Center(child: Text("Sem pedidos para mostrar"),);
+  } 
+    else if (listaImagemRestaurantePedido.isEmpty) {
+    return const Center(
+    child: Text("Aguarde, carregando imagens"),
+    );
     } else {
-    
       if (_atualizacaoRealizada) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -267,59 +255,69 @@ Widget build(BuildContext context) {
           const SizedBox(height: 30),
           Row(
             children: [
-              ImagemTexto(
-            imagePath: listaImagemRestaurantePedido[0],
-            enderecoRestaurante: listaEnderecoRestaurante[0].toString(),
-            itemPedido: listaNomesItens[0].toString(),
-            cliente: listaClientes[0].toString(),
-            enderecoCliente: listaEnderecoCliente[0].toString(), 
-            nomeRestaurante: listaNomeRestaurante[0].toString(), 
-            idPedido: listaIdPedido[0].toString(), emailUsuario: emailUsuario,
-              )
+               listaImagemRestaurantePedido.length > 0
+                      ? ImagemTexto(
+                          imagePath: listaImagemRestaurantePedido[0],
+                          enderecoRestaurante: listaEnderecoRestaurante[0].toString(),
+                          itemPedido: listaNomesItens[0].toString(),
+                          cliente: listaClientes[0].toString(),
+                          enderecoCliente: listaEnderecoCliente[0].toString(),
+                          nomeRestaurante: listaNomeRestaurante[0].toString(),
+                          idPedido: listaIdPedido[0].toString(),
+                          emailUsuario: emailUsuario,
+                        )
+                      : const Text("Sem pedidos para mostrar"),
             ],
           ),
           const SizedBox(height: 30),
           Row(
             children: [
-               ImagemTexto(
-            imagePath: listaImagemRestaurantePedido[1],
-            enderecoRestaurante: listaEnderecoRestaurante[1].toString(),
-            itemPedido: listaNomesItens[1].toString(),
-            cliente: listaClientes[1].toString(),
-            enderecoCliente: listaEnderecoCliente[1].toString(), 
-            nomeRestaurante: listaNomeRestaurante[1].toString(), 
-            idPedido: listaIdPedido[1].toString(), emailUsuario: emailUsuario,
-              )
+               listaImagemRestaurantePedido.length > 1
+                      ? ImagemTexto(
+                          imagePath: listaImagemRestaurantePedido[1],
+                          enderecoRestaurante: listaEnderecoRestaurante[1].toString(),
+                          itemPedido: listaNomesItens[1].toString(),
+                          cliente: listaClientes[1].toString(),
+                          enderecoCliente: listaEnderecoCliente[1].toString(),
+                          nomeRestaurante: listaNomeRestaurante[1].toString(),
+                          idPedido: listaIdPedido[1].toString(),
+                          emailUsuario: emailUsuario,
+                        )
+                      : const Text("Sem pedido para mostrar"),
             ],
           ),
           const SizedBox(height: 30),
           Row(
             children: [
-              ImagemTexto(
-            imagePath: listaImagemRestaurantePedido[2],
-            enderecoRestaurante: listaEnderecoRestaurante[2].toString(),
-            itemPedido: listaNomesItens[2].toString(),
-            cliente: listaClientes[2].toString(),
-            enderecoCliente: listaEnderecoCliente[2].toString(), 
-            nomeRestaurante: listaNomeRestaurante[2].toString(), 
-            idPedido: listaIdPedido[2].toString(),
-            emailUsuario: emailUsuario,
-              )
+              listaImagemRestaurantePedido.length > 2
+                      ? ImagemTexto(
+                          imagePath: listaImagemRestaurantePedido[2],
+                          enderecoRestaurante: listaEnderecoRestaurante[2].toString(),
+                          itemPedido: listaNomesItens[2].toString(),
+                          cliente: listaClientes[2].toString(),
+                          enderecoCliente: listaEnderecoCliente[2].toString(),
+                          nomeRestaurante: listaNomeRestaurante[2].toString(),
+                          idPedido: listaIdPedido[2].toString(),
+                          emailUsuario: emailUsuario,
+                        )
+                      : const Text("Sem pedido para mostrar"),
             ],
           ),
           const SizedBox(height: 30),
           Row(
             children: [
-               ImagemTexto(
-            imagePath: listaImagemRestaurantePedido[3],
-            enderecoRestaurante: listaEnderecoRestaurante[3].toString(),
-            itemPedido: listaNomesItens[3].toString(),
-            cliente: listaClientes[3].toString(),
-            enderecoCliente: listaEnderecoCliente[3].toString(), 
-            nomeRestaurante: listaNomeRestaurante[3].toString(), 
-            idPedido: listaIdPedido[3].toString(),
-            emailUsuario: emailUsuario,
-              )
+              listaImagemRestaurantePedido.length > 3
+                      ? ImagemTexto(
+                          imagePath: listaImagemRestaurantePedido[3],
+                          enderecoRestaurante: listaEnderecoRestaurante[3].toString(),
+                          itemPedido: listaNomesItens[3].toString(),
+                          cliente: listaClientes[3].toString(),
+                          enderecoCliente: listaEnderecoCliente[3].toString(),
+                          nomeRestaurante: listaNomeRestaurante[3].toString(),
+                          idPedido: listaIdPedido[3].toString(),
+                          emailUsuario: emailUsuario,
+                        )
+                      : const Text("Sem pedido para mostrar"),
             ],
           ),
         ],
@@ -400,4 +398,3 @@ Widget build(BuildContext context) {
   }
 
 }
-  

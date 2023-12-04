@@ -92,6 +92,7 @@ void login() async {
      
         print(emailUsuario);
      
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacementNamed('/pedidos', arguments: emailUsuario);
         
       } else {
@@ -100,7 +101,7 @@ void login() async {
           exibirMensagemErro = true;
         });
 
-        Timer(Duration(seconds: 3), () { 
+        Timer(const Duration(seconds: 3), () { 
           setState(() {
             exibirMensagemErro = false;
           });

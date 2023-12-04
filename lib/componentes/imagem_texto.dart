@@ -89,6 +89,7 @@ class ImagemTexto extends StatelessWidget {
                      Botao(
                       texto: 'Aceitar pedido',
                       funcao: () {
+                        
                        Navigator.of(context).pop();
                        Navigator.of(context).push(
                         MaterialPageRoute(

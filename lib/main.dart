@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         // ignore: prefer_const_constructors
         '/login':(context) => TelaLogin(login: Login('',''), emailUsuario: '',),
         '/pedidos':(context) => TelaPedidos(pedidos: Pedidos('integracao@pedidos.com','querocafe','token'), marketplace: Marketplace('usuario5.lojista', '123456', 'token', ''), emailUsuario: '',),
-        '/entregas':(context) => TelaEntregas(enderecoRestaurante: '', enderecoCliente: '', 
+        '/entregas':(context) => TelaEntregas(enderecoRestaurante: '', enderecoCliente: '',
         clientes: '', nomesItens: '', imagemRestaurantePedido: Uint8List(0), 
         nomeRestaurante: '', logistica: Logistica('admin','fretefrete','token'), 
         idPedido: '', emailUsuario: '',)

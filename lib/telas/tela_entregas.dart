@@ -6,7 +6,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/modelos/login.dart';
 import 'package:modulo_logistica_sa/modelos/logistica.dart';
+import 'package:modulo_logistica_sa/telas/tela_login.dart';
 
 // ignore: must_be_immutable
 class TelaEntregas extends StatefulWidget {
@@ -50,6 +52,14 @@ class _TelaEntregasState extends State<TelaEntregas> {
     authLogistica();
     buscarApiFreteAceito();
     widget.emailUsuario;
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    authLogistica();
+    buscarApiFreteAceito();
+    widget.emailUsuario;
+
   }
 
   Future<Map<String, dynamic>?> authLogistica(
@@ -98,7 +108,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
 
 
     Uri uri = Uri.parse(
-        "http://localhost:9089/frete/id/${widget.idFrete}/idPedido/${widget.idPedido}/emailEntregador/${widget.emailUsuario}/aceitoParaEntrega");
+        "http://localhost:9089/frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/aceito");
 
     try {
       Response response = await patch(
@@ -126,7 +136,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
   Future<void> buscarApiFreteEntregue() async {
 
     Uri uri = Uri.parse(
-        "http://localhost:9089/frete/id/${widget.idFrete}/idPedido/${widget.idPedido}/emailEntregador/${widget.emailUsuario}/entregue");
+        "http://localhost:9089/frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/entregue");
 
     try {
       Response response = await patch(
@@ -156,6 +166,21 @@ class _TelaEntregasState extends State<TelaEntregas> {
   Color botaoCor = Colors.blue; 
   @override
   Widget build(BuildContext context) {
+  MaterialApp(
+    routes: {
+      '/login': (context) => TelaLogin(login: Login('', ''), emailUsuario: '',),
+      // outras rotas
+    },
+    // resto da configuração do MaterialApp
+  );
+
+    if(widget.emailUsuario.isEmpty) {
+       Future.delayed(Duration.zero, () {
+      Navigator.pushReplacementNamed(context, '/login');
+    });
+    }
+    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -228,6 +253,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
                       return Botao(
                         texto: 'Finalizar entrega',
                         funcao: () {
+                          buscarApiFreteEntregue();
                           setState(() {
                             botaoCor = Colors.green;
                           });

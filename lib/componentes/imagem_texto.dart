@@ -4,8 +4,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
+import 'package:modulo_logistica_sa/modelos/login.dart';
 import 'package:modulo_logistica_sa/modelos/logistica.dart';
 import 'package:modulo_logistica_sa/telas/tela_entregas.dart';
+import 'package:modulo_logistica_sa/telas/tela_login.dart';
 
 
 // ignore: must_be_immutable
@@ -27,6 +29,28 @@ class ImagemTexto extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+  List<String> items = itemPedido.split('\n');
+  List<Widget> pedidoItems = items.map((item) {
+  return Text(
+    item,
+    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+  );
+}).toList();
+   MaterialApp(
+    routes: {
+      '/login': (context) => TelaLogin(login: Login('', ''), emailUsuario: '',),
+      // outras rotas
+    },
+    // resto da configuração do MaterialApp
+  );
+
+    if(emailUsuario.isEmpty) {
+       Future.delayed(Duration.zero, () {
+      Navigator.pushReplacementNamed(context, '/login');
+    });
+    }
+
+
     return InkWell(
       onTap: () {
         showDialog(
@@ -67,6 +91,10 @@ class ImagemTexto extends StatelessWidget {
                       itemPedido,
                       style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),    
                     ),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: pedidoItems,
+                        ),
                     const SizedBox(height: 20),
                     const Text(
                       'Cliente:',
@@ -120,62 +148,67 @@ class ImagemTexto extends StatelessWidget {
           },
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(30),
-          color: const Color.fromARGB(255, 178, 185, 185),
-        ),
-        width: 550,
-        height: 150,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: MemoryImage(imagePath), 
-                          fit: BoxFit.cover,
-                        ),
-                        ),
-                      ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  Text(
-                    enderecoRestaurante,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                  ),
-                  const Text(
-                    '\nPedido:',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                  ),
-                  Text(
-                    itemPedido,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                  ),
-                  Text(
-                    nomeRestaurante,
-                    textAlign: TextAlign.start,
-                  style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
-                    ),
-                ],
+       child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(30),
+        color: const Color.fromARGB(255, 178, 185, 185),
+      ),
+      width: 550,
+      height: 150,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: MemoryImage(imagePath), 
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  nomeRestaurante,
+                  style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                ),
+                Text(
+                  enderecoRestaurante,
+                  style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Pedido:',
+                  style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: items.map((item) {
+                        return Text(
+                          item,
+                          style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

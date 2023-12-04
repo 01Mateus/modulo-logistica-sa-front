@@ -56,10 +56,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
   @override
   void dispose() {
     super.dispose();
-    authLogistica();
-    buscarApiFreteAceito();
-    widget.emailUsuario;
-
   }
 
   Future<Map<String, dynamic>?> authLogistica(

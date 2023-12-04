@@ -95,7 +95,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
     Future<void> buscarApiPedidos() async {
 
     Uri uri = Uri.parse(
-        "http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&retirada=DELIVERY&pagina=0");
+        "http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&pagina=0");
 
     try {
       Response response = await get(
@@ -138,8 +138,6 @@ class _TelaPedidosState extends State<TelaPedidos> {
         listaClientes.add(cliente);
         listaNomeRestaurante.add(nomeRestaurante);
 
-        listaNomesItens.clear();
-
         buscarImagemMarketplace(idRestaurante);
 
         List<dynamic> itensPedidos = pedido['opcoes'];
@@ -154,7 +152,24 @@ class _TelaPedidosState extends State<TelaPedidos> {
         }
         }         
         setState(() {
-          _atualizacaoRealizada = true;
+        _atualizacaoRealizada = true;
+        listaEnderecoCliente;
+        listaIdPedido;
+        listaIdRestaurantePedido;
+        listaEnderecoRestaurante;
+        listaClientes;
+        listaNomeRestaurante;
+        listaNomesItens;
+
+        print(listaClientes);
+        print(listaEnderecoCliente);
+        print(listaIdPedido);
+        print(listaIdRestaurantePedido);
+        print(listaEnderecoRestaurante);
+        print(listaClientes);
+        print(listaNomeRestaurante);
+        print(listaNomesItens);
+
         }); 
         
       } else {
@@ -189,6 +204,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
         }
         
         setState(() {
+          listaImagemRestaurantePedido;
         }); 
       } else {
         print('Erro na requisição do professor: ${response.statusCode}');
@@ -266,7 +282,7 @@ Widget build(BuildContext context) {
                           idPedido: listaIdPedido[0].toString(),
                           emailUsuario: emailUsuario,
                         )
-                      : const Text("Sem pedidos para mostrar"),
+                      : const Text("Sem pedido para mostrar"),
             ],
           ),
           const SizedBox(height: 30),

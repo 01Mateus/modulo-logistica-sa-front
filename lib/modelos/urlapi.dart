@@ -4,4 +4,5 @@ class  Urlapi{
   late String urlLoginLogistica = "http://localhost:9089/auth";
   late String urlMarkeplace = "https://cardapios-mktplace-api-production.up.railway.app/";
   late String urlLogistica = "http://localhost:9089/";
+  late String urlLoginCadastros = "https://gestao-de-cadastros-api-production.up.railway.app/auth";
 }

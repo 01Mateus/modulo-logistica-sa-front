@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/componentes/caixa_texto.dart';
 import 'package:modulo_logistica_sa/modelos/login.dart';
+import 'package:modulo_logistica_sa/modelos/urlapi.dart';
 
 class TelaLogin extends StatefulWidget {
   final Login login;
@@ -49,7 +50,7 @@ class _telaLoginState extends State<TelaLogin> {
       'senha': widget.login.senhaUsuario,
     };
 
-    final uriLogin = Uri.parse("https://gestao-de-cadastros-api-production.up.railway.app/auth");
+    final uriLogin = Uri.parse(Urlapi().urlLoginCadastros);
 
     try {
       Response response = await post(uriLogin,

@@ -12,8 +12,9 @@ import 'package:modulo_logistica_sa/modelos/pedidos.dart';
 import 'package:modulo_logistica_sa/modelos/urlapi.dart';
 
 class TelaPedidos extends StatefulWidget {
-    // ignore: library_private_types_in_public_api
-  static GlobalKey<_TelaPedidosState> pedidosKey = GlobalKey<_TelaPedidosState>();
+  // ignore: library_private_types_in_public_api
+  static GlobalKey<_TelaPedidosState> pedidosKey =
+      GlobalKey<_TelaPedidosState>();
 
   final Pedidos pedidos; // Recebendo a instância de Login
   final Marketplace marketplace;
@@ -193,11 +194,11 @@ class _TelaPedidosState extends State<TelaPedidos> {
     }
   }
 
-        String formatarLista(List<String> itens) {
-          String itensFormatados = itens.join(
-              '\n'); // Junta os itens em uma string separados por vírgula e espaço
-          return itensFormatados;
-        }
+  String formatarLista(List<String> itens) {
+    String itensFormatados = itens.join(
+        '\n'); // Junta os itens em uma string separados por vírgula e espaço
+    return itensFormatados;
+  }
 
   Future<void> atualizarImagensMarketplace() async {
     for (var idRestaurante in listaIdRestaurantePedido) {
@@ -251,9 +252,36 @@ class _TelaPedidosState extends State<TelaPedidos> {
           listaNomeRestaurante.isEmpty ||
           listaIdRestaurantePedido.isEmpty ||
           listaIdPedido.isEmpty) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return Center(
+            child: Column(children: [
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              buscarApiPedidos();
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor:
+                  const Color.fromARGB(255, 160, 160, 131), // Cor do botão
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 30, vertical: 15), // Espaçamento interno do botão
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // Borda arredondada
+              ),
+              elevation: 3, // Elevação do botão
+            ),
+            child: const Text(
+              'Atualizar pedidos',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          const Center(
+            heightFactor: 10,
+            child: CircularProgressIndicator(),
+          ),
+        ]));
       } else if (listaImagemRestaurantePedido.length <
           listaIdRestaurantePedido.length) {
         return const Center(
@@ -262,73 +290,71 @@ class _TelaPedidosState extends State<TelaPedidos> {
       } else if (listaClientes.isEmpty) {
         return const Center(child: Text("Sem pedidos para mostrar"));
       }
-
       return Center(
           child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(children: [
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        buscarApiPedidos();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: const Color.fromARGB(
-                            255, 160, 160, 131), // Cor do texto do botão
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 15), // Espaçamento interno do botão
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(10), // Borda arredondada
-                        ),
-                        elevation: 3, // Elevação do botão
-                      ),
-                      child: const Text(
-                        'Atualizar pedidos',
-                        style:
-                            TextStyle(fontSize: 18), // Estilo do texto do botão
-                      ),
+              child: Column(children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    buscarApiPedidos();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromARGB(
+                        255, 160, 160, 131), // Cor do botão
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 15), // Espaçamento interno do botão
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(10), // Borda arredondada
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height * 0.84,
-                        child: ListView.builder(
-                            itemCount: listaClientes.length,
-                            itemBuilder: (context, index) {
-                              if (index < listaClientes.length &&
-                                  index < listaImagemRestaurantePedido.length &&
-                                  index < listaEnderecoRestaurante.length &&
-                                  index < listaItensTotal.length &&
-                                  index < listaEnderecoCliente.length &&
-                                  index < listaNomeRestaurante.length &&
-                                  index < listaIdPedido.length) {
-                                return ImagemTexto(
-                                  imagePath:
-                                      listaImagemRestaurantePedido[index],
-                                  enderecoRestaurante:
-                                      listaEnderecoRestaurante[index]
-                                          .toString(),
-                                  itemPedido: formatarLista(listaItensTotal[index]),
-                                  cliente: listaClientes[index].toString(),
-                                  enderecoCliente:
-                                      listaEnderecoCliente[index].toString(),
-                                  nomeRestaurante:
-                                      listaNomeRestaurante[index].toString(),
-                                  idPedido: listaIdPedido[index].toString(),
-                                  emailUsuario: emailUsuario,
-                                );
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            }))
-                  ]))));
+                    elevation: 3, // Elevação do botão
+                  ),
+                  child: const Text(
+                    'Atualizar pedidos',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.79,
+                    child: ListView.builder(
+                        itemCount: listaClientes.length,
+                        itemBuilder: (context, index) {
+                          if (index < listaClientes.length &&
+                              index < listaImagemRestaurantePedido.length &&
+                              index < listaEnderecoRestaurante.length &&
+                              index < listaItensTotal.length &&
+                              index < listaEnderecoCliente.length &&
+                              index < listaNomeRestaurante.length &&
+                              index < listaIdPedido.length) {
+                            return ImagemTexto(
+                              imagePath: listaImagemRestaurantePedido[index],
+                              enderecoRestaurante:
+                                  listaEnderecoRestaurante[index].toString(),
+                              itemPedido: formatarLista(listaItensTotal[index]),
+                              cliente: listaClientes[index].toString(),
+                              enderecoCliente:
+                                  listaEnderecoCliente[index].toString(),
+                              nomeRestaurante:
+                                  listaNomeRestaurante[index].toString(),
+                              idPedido: listaIdPedido[index].toString(),
+                              emailUsuario: emailUsuario,
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })),
+                        const SizedBox(
+                  height: 20,
+                ),
+              ])));
     }
 
     return Scaffold(

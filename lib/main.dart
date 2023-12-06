@@ -34,11 +34,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/login', routes: {
-<<<<<<< HEAD
-        '/login':(context) => const TelaLogin(),
-        '/pedidos':(context) => TelaPedidos(),
-        '/entregas':(context) => TelaEntregas(imagePath: '', endereco: '', qntItemPedido: '', itemPedido: '', cliente: '',),
-=======
         // ignore: prefer_const_constructors
         '/login':(context) => TelaLogin(login: Login('',''), emailUsuario: '',),
         '/pedidos':(context) => TelaPedidos(pedidos: Pedidos('integracao@pedidos.com','querocafe','token'), marketplace: Marketplace('usuario5.lojista', '123456', 'token', ''), emailUsuario: '',),
@@ -46,7 +41,6 @@ class _MyAppState extends State<MyApp> {
         clientes: '', nomesItens: '', imagemRestaurantePedido: Uint8List(0), 
         nomeRestaurante: '', logistica: Logistica('admin','fretefrete','token'), 
         idPedido: '', emailUsuario: '',)
->>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
       },
     );
   }

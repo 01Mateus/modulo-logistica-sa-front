@@ -4,35 +4,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:modulo_logistica_sa/modelos/pedidos.dart';
-
-
-// ignore: must_be_immutable
-class TelaEntregas extends StatelessWidget {
-Pedidos pedidos = Pedidos.inciar();
-
-  dynamic imagePath = "asodsaojkdsa";
-  dynamic endereco =  "casads coad sadcara";
-  dynamic qntItemPedido = "128312470214821";
-  dynamic itemPedido = "sexo 2";
-  dynamic cliente = "jorge";
-
-
-
-
-  TelaEntregas({super.key, 
-    required this.imagePath,
-    required this.endereco,
-    required this.qntItemPedido,
-    required this.itemPedido,
-    required this.cliente,
-=======
 import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/botao.dart';
 import 'package:modulo_logistica_sa/modelos/login.dart';
 import 'package:modulo_logistica_sa/modelos/logistica.dart';
+import 'package:modulo_logistica_sa/modelos/urlapi.dart';
 import 'package:modulo_logistica_sa/telas/tela_login.dart';
+import 'package:modulo_logistica_sa/telas/tela_pedidos.dart';
 
 // ignore: must_be_immutable
 class TelaEntregas extends StatefulWidget {
@@ -59,7 +37,6 @@ class TelaEntregas extends StatefulWidget {
   required this.logistica,
   required this.idPedido,
   required this.emailUsuario,
->>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
   });
 
   @override
@@ -90,7 +67,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
       'senha': widget.logistica.senhaLogistica,
     };
 
-    final uriLogin = Uri.parse("http://localhost:9089/auth");
+    final uriLogin = Uri.parse(Urlapi().urlLoginLogistica);
 
     try {
       Response response = await post(uriLogin,
@@ -128,8 +105,8 @@ class _TelaEntregasState extends State<TelaEntregas> {
  Future<void> buscarApiFreteAceito() async {
 
 
-    Uri uri = Uri.parse(
-        "http://localhost:9089/frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/aceito");
+    Uri uri = Uri.parse( 
+      "${Urlapi().urlLogistica}frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/aceito");
 
     try {
       Response response = await patch(
@@ -144,7 +121,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
       if (response.statusCode == 200) {
 
         print(response);
-        setState(() {}); 
       } else {
         print('Erro na requisição do frete: ${response.statusCode}');
       }
@@ -156,8 +132,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
 
   Future<void> buscarApiFreteEntregue() async {
 
-    Uri uri = Uri.parse(
-        "http://localhost:9089/frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/entregue");
+    Uri uri = Uri.parse("${Urlapi().urlLogistica}frete/email-entregador/${widget.emailUsuario}/id-pedido/${widget.idPedido}/entregue");
 
     try {
       Response response = await patch(
@@ -171,7 +146,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
 
       if (response.statusCode == 200) {
         print(response);
-        setState(() {}); 
       } else {
         print('Erro na requisição do frete: ${response.statusCode}');
       }
@@ -194,7 +168,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
     },
     // resto da configuração do MaterialApp
   );
-
     if(widget.emailUsuario.isEmpty) {
        Future.delayed(Duration.zero, () {
       Navigator.pushReplacementNamed(context, '/login');
@@ -275,12 +248,10 @@ class _TelaEntregasState extends State<TelaEntregas> {
                         texto: 'Finalizar entrega',
                         funcao: () {
                           buscarApiFreteEntregue();
-                          setState(() {
+                          if(mounted){setState(() {
                             botaoCor = Colors.green;
-                          });
-                          Future.delayed(const Duration(seconds: 1), () {
+                          });}
                             Navigator.of(context).pop('/pedidos');
-                          });
                         },
                         cor: botaoCor,
                         icone: Icons.check,
@@ -289,37 +260,7 @@ class _TelaEntregasState extends State<TelaEntregas> {
                   ),
                 ],
               ),
-<<<<<<< HEAD
-              const SizedBox(height: 10),
-              Text(
-                endereco,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              const Text(
-                '\nPedido:',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              Text(
-                qntItemPedido,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              Text(
-                itemPedido,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Cliente:',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              Text(
-                cliente,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
-              ),
-            ],
-=======
             ),
->>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
           ),
         ),
       ),

@@ -7,18 +7,14 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:modulo_logistica_sa/componentes/imagem_texto.dart';
-<<<<<<< HEAD
-import 'package:modulo_logistica_sa/modelos/pedidos.dart';
-
-class TelaPedidos extends StatefulWidget {
-  TelaPedidos({Key? key}) : super(key: key);
-
-  Pedidos pedidos = Pedidos.inciar();
-=======
 import 'package:modulo_logistica_sa/modelos/marketplace.dart';
 import 'package:modulo_logistica_sa/modelos/pedidos.dart';
+import 'package:modulo_logistica_sa/modelos/urlapi.dart';
 
 class TelaPedidos extends StatefulWidget {
+    // ignore: library_private_types_in_public_api
+  static GlobalKey<_TelaPedidosState> pedidosKey = GlobalKey<_TelaPedidosState>();
+
   final Pedidos pedidos; // Recebendo a instância de Login
   final Marketplace marketplace;
   final String emailUsuario;
@@ -28,83 +24,19 @@ class TelaPedidos extends StatefulWidget {
       required this.marketplace,
       required this.emailUsuario})
       : super(key: key);
->>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
 
   @override
   State<TelaPedidos> createState() => _TelaPedidosState();
 }
 
 class _TelaPedidosState extends State<TelaPedidos> {
-<<<<<<< HEAD
-  dynamic imagePath = "asodsaojkdsa";
-  dynamic endereco =  "casads coad sadcara";
-  dynamic qntItemPedido = "128312470214821";
-  dynamic itemPedido = "sexo 2";
-  dynamic cliente = "jorge";
-
-  @override
-  Widget build(BuildContext context) {
-    criarConteudo() {
-      return Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-            child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              ImagemTexto(
-                imagePath:
-                    imagePath,
-                endereco:
-                    endereco,
-                cliente: cliente,
-                qntItemPedido: qntItemPedido,
-                itemPedido: itemPedido
-
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            children: [
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2016/11/18/22/21/restaurant-1837150_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                cliente: '',
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            children: [
-              ImagemTexto(
-                imagePath:
-                    'https://cdn.pixabay.com/photo/2015/02/24/11/54/vienna-647328_1280.jpg',
-                endereco:
-                    '\nRodovia SC 441, Rod. Arno Arnaldo Napoli,\n248 - Centro, Jaguaruna - SC',
-                qntItemPedido: '3',
-                itemPedido: 'X-Salada\n Balde de frango\n X-Tudo',
-                cliente: '',
-              ),
-            ],
-          ),
-        ],
-=======
   Map<String, List<Uint8List>> mapaImagensRestaurante = {};
   List<dynamic> listaIdRestaurantePedido = [];
   List<dynamic> listaEnderecoRestaurante = [];
   List<dynamic> listaEnderecoCliente = [];
   List<dynamic> listaClientes = [];
-  List<dynamic> listaNomesItens = [];
-  List<dynamic> listaQuantidadesItens = [];
+  List<String> listaItensPorRestaurante = [];
+  List<List<String>> listaItensTotal = [];
   List<dynamic> listaCepRestaurantePedido = [];
   List<Uint8List> listaImagemRestaurantePedido = [];
   List<dynamic> listaNomeRestaurante = [];
@@ -127,7 +59,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
       'senha': widget.pedidos.senhaPedidos,
     };
 
-    final uriLogin = Uri.parse("http://localhost:3000/auth");
+    final uriLogin = Uri.parse(Urlapi().urlAutenticacaoPedidos);
 
     try {
       Response response = await post(
@@ -158,8 +90,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
   }
 
   Future<void> buscarApiPedidos() async {
-    Uri uri = Uri.parse(
-        "http://localhost:3000/pedidos?status=PRONTO_PARA_COLETA&pagina=0");
+    Uri uri = Uri.parse(Urlapi().urlPedidos);
     try {
       Response response = await get(
         uri,
@@ -173,6 +104,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData =
             json.decode(utf8.decode(response.bodyBytes));
+
         List<dynamic> pedidos = responseData['listagem'];
         if (mounted) {
           setState(() {
@@ -182,17 +114,20 @@ class _TelaPedidosState extends State<TelaPedidos> {
             listaEnderecoRestaurante.clear();
             listaClientes.clear();
             listaNomeRestaurante.clear();
-            listaNomesItens.clear();
+            listaItensPorRestaurante.clear();
+            listaItensTotal.clear();
             listaImagemRestaurantePedido.clear();
             mapaImagensRestaurante.clear();
           });
         }
 
         for (var pedido in pedidos) {
+          listaItensPorRestaurante.clear();
           String cepRestaurante = pedido['restaurante']['cep'];
+          print(cepRestaurante);
           String nomeRestaurante = pedido['restaurante']['nome'];
 
-          String cliente = pedido['cliente']['nome'];
+          String nomeCliente = pedido['cliente']['nome'];
           String ruaCliente = pedido['endereco']['rua'];
           String bairroCliente = pedido['endereco']['bairro'];
           String cidadeCliente = pedido['endereco']['cidade'];
@@ -215,19 +150,22 @@ class _TelaPedidosState extends State<TelaPedidos> {
           listaIdPedido.add(idPedido);
           listaIdRestaurantePedido.add(idRestaurante);
           listaEnderecoRestaurante.add(enderecoCompletoResta);
-          listaClientes.add(cliente);
+          listaClientes.add(nomeCliente);
           listaNomeRestaurante.add(nomeRestaurante);
 
-          List<dynamic> itensPedidos = pedido['opcoes'];
-          for (var item in itensPedidos) {
-            String nomeItem = item['nome'];
-            int quantidade = item['qtde_itens'];
+          for (var item in pedido['opcoes']) {
+            String nomeItem = item[
+                'nome']; // Substitua 'nome' pela chave correta que representa o nome do item no seu JSON
+            String quantidade = item['qtde_itens']
+                .toString(); // Substitua 'quantidade' pela chave correta que representa a quantidade
 
             String itemCompleto = '$quantidade - $nomeItem';
 
-            listaNomesItens.add(itemCompleto);
+            listaItensPorRestaurante.add(itemCompleto);
           }
+          listaItensTotal.add(List<String>.from(listaItensPorRestaurante));
         }
+
         if (mounted) {
           setState(() {
             listaEnderecoCliente;
@@ -236,13 +174,14 @@ class _TelaPedidosState extends State<TelaPedidos> {
             listaEnderecoRestaurante;
             listaClientes;
             listaNomeRestaurante;
-            listaNomesItens;
+            listaItensTotal;
 
             print('Total de pedidos recebidos: ${pedidos.length}');
             print('Total de clientes: ${listaClientes.length}');
             print(
                 'Total de endereços de restaurante: ${listaEnderecoRestaurante.length}');
-            print('Total de nomes de itens: ${listaNomesItens.length}');
+            print(listaItensTotal);
+            print('Total de nomes de itens: ${listaItensTotal.length}');
           });
         }
         await atualizarImagensMarketplace();
@@ -254,6 +193,12 @@ class _TelaPedidosState extends State<TelaPedidos> {
     }
   }
 
+        String formatarLista(List<String> itens) {
+          String itensFormatados = itens.join(
+              '\n'); // Junta os itens em uma string separados por vírgula e espaço
+          return itensFormatados;
+        }
+
   Future<void> atualizarImagensMarketplace() async {
     for (var idRestaurante in listaIdRestaurantePedido) {
       await buscarImagemMarketplace(idRestaurante.toString());
@@ -262,7 +207,7 @@ class _TelaPedidosState extends State<TelaPedidos> {
 
   Future<void> buscarImagemMarketplace(String idRestaurante) async {
     Uri uri = Uri.parse(
-        "https://cardapios-mktplace-api-production.up.railway.app/restaurantes/id/$idRestaurante/foto");
+        "${Urlapi().urlMarkeplace}restaurantes/id/$idRestaurante/foto");
     try {
       Response response = await get(
         uri,
@@ -300,7 +245,8 @@ class _TelaPedidosState extends State<TelaPedidos> {
     Widget criarConteudo() {
       if (listaClientes.isEmpty ||
           listaEnderecoRestaurante.isEmpty ||
-          listaNomesItens.isEmpty ||
+          listaItensTotal.isEmpty ||
+          listaItensPorRestaurante.isEmpty ||
           listaEnderecoCliente.isEmpty ||
           listaNomeRestaurante.isEmpty ||
           listaIdRestaurantePedido.isEmpty ||
@@ -318,60 +264,71 @@ class _TelaPedidosState extends State<TelaPedidos> {
       }
 
       return Center(
-          child: Column(children: [
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            authPedidos();
-          },
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: const Color.fromARGB(255, 160, 160, 131), // Cor do texto do botão
-            padding: const EdgeInsets.symmetric(
-                horizontal: 30, vertical: 15), // Espaçamento interno do botão
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10), // Borda arredondada
-            ),
-            elevation: 3, // Elevação do botão
-          ),
-          child: const Text(
-            'Atualizar pedidos',
-            style: TextStyle(fontSize: 18), // Estilo do texto do botão
-          ),
->>>>>>> 3cfc29e9884940b69bd287778b46b0afab84f04e
-        ),
-        const SizedBox(height: 20),
-        SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.height * 0.84,
-            child: ListView.builder(
-                itemCount: listaClientes.length,
-                itemBuilder: (context, index) {
-                  if (index < listaClientes.length &&
-                      index < listaImagemRestaurantePedido.length &&
-                      index < listaEnderecoRestaurante.length &&
-                      index < listaNomesItens.length &&
-                      index < listaEnderecoCliente.length &&
-                      index < listaNomeRestaurante.length &&
-                      index < listaIdPedido.length) {
-                    return ImagemTexto(
-                      imagePath: listaImagemRestaurantePedido[index],
-                      enderecoRestaurante:
-                          listaEnderecoRestaurante[index].toString(),
-                      itemPedido: listaNomesItens[index].toString(),
-                      cliente: listaClientes[index].toString(),
-                      enderecoCliente: listaEnderecoCliente[index].toString(),
-                      nomeRestaurante: listaNomeRestaurante[index].toString(),
-                      idPedido: listaIdPedido[index].toString(),
-                      emailUsuario: emailUsuario,
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }))
-      ]));
+          child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(children: [
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        buscarApiPedidos();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(
+                            255, 160, 160, 131), // Cor do texto do botão
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 15), // Espaçamento interno do botão
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(10), // Borda arredondada
+                        ),
+                        elevation: 3, // Elevação do botão
+                      ),
+                      child: const Text(
+                        'Atualizar pedidos',
+                        style:
+                            TextStyle(fontSize: 18), // Estilo do texto do botão
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.84,
+                        child: ListView.builder(
+                            itemCount: listaClientes.length,
+                            itemBuilder: (context, index) {
+                              if (index < listaClientes.length &&
+                                  index < listaImagemRestaurantePedido.length &&
+                                  index < listaEnderecoRestaurante.length &&
+                                  index < listaItensTotal.length &&
+                                  index < listaEnderecoCliente.length &&
+                                  index < listaNomeRestaurante.length &&
+                                  index < listaIdPedido.length) {
+                                return ImagemTexto(
+                                  imagePath:
+                                      listaImagemRestaurantePedido[index],
+                                  enderecoRestaurante:
+                                      listaEnderecoRestaurante[index]
+                                          .toString(),
+                                  itemPedido: formatarLista(listaItensTotal[index]),
+                                  cliente: listaClientes[index].toString(),
+                                  enderecoCliente:
+                                      listaEnderecoCliente[index].toString(),
+                                  nomeRestaurante:
+                                      listaNomeRestaurante[index].toString(),
+                                  idPedido: listaIdPedido[index].toString(),
+                                  emailUsuario: emailUsuario,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            }))
+                  ]))));
     }
 
     return Scaffold(

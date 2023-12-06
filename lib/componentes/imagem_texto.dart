@@ -62,7 +62,6 @@ class ImagemTexto extends StatelessWidget {
               content: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
                   child: SizedBox(
                     width: 430,
                     child: Column(
@@ -109,6 +108,7 @@ class ImagemTexto extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 14,
                               overflow: TextOverflow.fade,
+                              
                               fontFamily: 'LeagueSpartan'),
                         ),
                         const SizedBox(height: 20),
@@ -201,11 +201,15 @@ class ImagemTexto extends StatelessWidget {
                     nomeRestaurante,
                     style: const TextStyle(
                         color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                   ),
                   Text(
                     enderecoRestaurante,
                     style: const TextStyle(
                         color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                   ),
                   const SizedBox(height: 5),
                   const Text(
@@ -218,7 +222,7 @@ class ImagemTexto extends StatelessWidget {
                     style: const TextStyle(
                         color: Colors.white, fontSize: 14, fontFamily: 'Arimo'),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
+                        maxLines: 2,
                   )
                 ],
               ),

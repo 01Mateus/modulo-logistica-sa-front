@@ -319,9 +319,12 @@ class _TelaPedidosState extends State<TelaPedidos> {
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
+                 const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: MediaQuery.of(context).size.height * 0.79,
+                    width: MediaQuery.of(context).size.width * 0.88,
+                    height: MediaQuery.of(context).size.height * 0.83,
                     child: ListView.builder(
                         itemCount: listaClientes.length,
                         itemBuilder: (context, index) {

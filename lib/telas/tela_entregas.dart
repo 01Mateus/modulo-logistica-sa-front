@@ -199,7 +199,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
           child: Center(
             child: Container(
               padding: const EdgeInsets.all(16.0),
@@ -207,6 +206,10 @@ class _TelaEntregasState extends State<TelaEntregas> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text(
+                    widget.nomeRestaurante,
+                    style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
+                  ),
                   CircleAvatar(
                     radius: 80,
                     backgroundImage: MemoryImage(widget.imagemRestaurantePedido),
@@ -238,10 +241,6 @@ class _TelaEntregasState extends State<TelaEntregas> {
                     style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    widget.nomeRestaurante,
-                    style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Arimo'),
-                  ),
                   Builder(
                     builder: (BuildContext context) {
                       return Botao(
